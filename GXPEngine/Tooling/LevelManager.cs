@@ -171,7 +171,7 @@ public class Level : GameObject{
     }
 
     void LoadMainLevel() {
-        // Shit 
+
         //SlowTile slowTile = new SlowTile("square.png", 1, 1, null);
         //objectLayer.AddChild(slowTile);
         //slowTile.SetXY(450, 450);
