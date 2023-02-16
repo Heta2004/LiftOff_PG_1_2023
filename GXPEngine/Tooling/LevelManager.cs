@@ -26,8 +26,10 @@ public class Level : GameObject{
     Pivot objectLayer=new Pivot();
     Pivot lateStuffToAdd= new Pivot();
     Pivot PlaceForUI= new Pivot();
+    Sprite fogOfWar = new Sprite("fogOfWar.png",false,false);
     Sprite blackThing = new Sprite("black.png", false, false);
     float blackThingAlphaTarget = 0.65f;
+    float fogOfWarAlphaTarget = 1f;
 
     public Level(String filename, GameData pGameData)
     {
@@ -36,6 +38,12 @@ public class Level : GameObject{
         AddChild(objectLayer);  
         AddChild(lateStuffToAdd);
         AddChild(PlaceForUI);
+
+        fogOfWar.SetOrigin(fogOfWar.width / 2, fogOfWar.height / 2);
+        fogOfWar.SetScaleXY(3f,3f);
+        lateStuffToAdd.AddChild(fogOfWar);
+        fogOfWar.alpha = 0;
+
         blackThing.SetScaleXY(10, 10);
         lateStuffToAdd.AddChild(blackThing);
         blackThing.SetXY(-700, -700);
@@ -123,8 +131,11 @@ public class Level : GameObject{
         TeleporterManager tm = new TeleporterManager();
         Teleporter[] tp= FindObjectsOfType<Teleporter>();
         tm.SetTeleporterList(tp);
+        int number = 0;
         foreach (Teleporter i in tp) {
             i.SetTeleportManager(tm);
+            i.SetPlayer(player);
+            i.SetNumber(number++);
         }
         
         
@@ -137,6 +148,9 @@ public class Level : GameObject{
     }
 
     void Update() {
+        if (player != null)
+            fogOfWar.SetXY(player.x,player.y);
+        
         if (Input.GetKeyUp(Key.R)) {
             ((MyGame)game).reset = true;
             ((MyGame)game).LoadLevel("mainMenu.tmx");
@@ -144,9 +158,12 @@ public class Level : GameObject{
         if (currentLevelName != "mainMenu.tmx")
             if (Time.time - startTime > (float)gameData.dayLength / 3 * 2&& Time.time - startTime<=gameData.dayLength) {
                 float targetChange=((float)gameData.dayLength/30000)* blackThingAlphaTarget;
+                float targetChangeFog = ((float)gameData.dayLength / 30000) * fogOfWarAlphaTarget;
                 int deltaTimeClamped = Math.Min(Time.deltaTime, 40);
                 float finalChange = targetChange * deltaTimeClamped / 1000;
+                float finalChangeFog = targetChangeFog * deltaTimeClamped / 1000;
                 blackThing.alpha = Math.Min(blackThing.alpha+finalChange, blackThingAlphaTarget);
+                fogOfWar.alpha = Math.Min(fogOfWar.alpha + finalChangeFog, fogOfWarAlphaTarget);
             }
 
         if (Time.time - startTime >= gameData.dayLength)
@@ -154,9 +171,12 @@ public class Level : GameObject{
         if (currentLevelName!= "mainMenu.tmx")
             if (Time.time - startTime > (float)gameData.dayLength + (float)gameData.nightLength / 3 * 2 && Time.time - startTime <= gameData.dayLength + gameData.nightLength){
                 float targetChange = ((float)gameData.dayLength / 30000) * blackThingAlphaTarget;
+                float targetChangeFog= ((float)gameData.dayLength / 30000) * fogOfWarAlphaTarget;
                 int deltaTimeClamped = Math.Min(Time.deltaTime, 40);
                 float finalChange = targetChange * deltaTimeClamped / 1000;
+                float finalChangeFog = targetChangeFog * deltaTimeClamped / 1000;
                 blackThing.alpha = Math.Max(blackThing.alpha - finalChange, 0f);
+                fogOfWar.alpha = Math.Max(fogOfWar.alpha - finalChangeFog, 0f);
             }
 
 
@@ -171,8 +191,6 @@ public class Level : GameObject{
     }
 
     void LoadMainLevel() {
-        //shit 2
-        // Shit 
         //SlowTile slowTile = new SlowTile("square.png", 1, 1, null);
         //objectLayer.AddChild(slowTile);
         //slowTile.SetXY(450, 450);
@@ -183,9 +201,6 @@ public class Level : GameObject{
         //loader.LoadObjectGroups(5);
         //loader.LoadObjectGroups(6);
         //loader.LoadObjectGroups(7);
-
-
-
 
         loader.LoadObjectGroups();
     }

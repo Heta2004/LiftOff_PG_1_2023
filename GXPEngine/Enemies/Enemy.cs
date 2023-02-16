@@ -50,7 +50,7 @@ public class Enemy:AnimationSprite{
         CheckForCooldown();
     }
 
-     void ChasePlayer() {
+     protected virtual void ChasePlayer() {
 
         var result = TransformPoint(player.x, player.y);
         var result2 = TransformPoint(x, y);
@@ -65,6 +65,7 @@ public class Enemy:AnimationSprite{
         float finalSpeed = speed * deltaTimeClamped / 1000;
         Move(finalSpeed, 0);
         rotation = 0;
+        
     }
 
     public void DamageEnemy(int damage){
@@ -87,7 +88,7 @@ public class Enemy:AnimationSprite{
         }
     }
 
-    void DamagePlayer() {
+    protected void DamagePlayer() {
 
         GameObject[] collisions=GetCollisions();
         foreach (GameObject col in collisions){
@@ -140,7 +141,7 @@ public class Enemy:AnimationSprite{
         return damagedByTrap;
     }
     
-    void CheckForCooldown() {
+    protected void CheckForCooldown() {
         if (Time.time - lastRocketHitTime > rocketDamageCooldown)
             damagedByExplosion = false;
         if (Time.time - lastTrapHitTime > trapDamageCooldown)
@@ -148,13 +149,10 @@ public class Enemy:AnimationSprite{
     }
 
 
-    void CheckForDrops() {
+    protected void CheckForDrops() {
 
         var rand = new Random();
         int randomNumber = rand.Next(1, 16);
-        //ScorePopUp scorePopUp = new ScorePopUp(randomNumber);
-        //parent.AddChild(scorePopUp);
-        //scorePopUp.SetXY(this.x, this.y - height*2);
         if (randomNumber == 1) {
             HpDrop hpDrop = new HpDrop();
             hpDrop.SetXY(x, y);
@@ -175,7 +173,9 @@ public class Enemy:AnimationSprite{
                     pickup.SetXY(x, y);
                     break;
                 case 3:
-
+                    pickup = new WeaponPickUp("RocketLauncher.png", "rocketLauncher");
+                    parent.AddChild(pickup);
+                    pickup.SetXY(x, y);
                     break;
                 case 4:
                     pickup = new WeaponPickUp("ak.png", "sniper");
@@ -188,7 +188,7 @@ public class Enemy:AnimationSprite{
 
     }
 
-    void ShowHealthBar() {
+    protected void ShowHealthBar() {
         hpBar.graphics.Clear(Color.Empty);
         hpBar.ShapeAlign(CenterMode.Min, CenterMode.Min);
         hpBar.NoStroke();

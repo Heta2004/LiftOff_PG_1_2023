@@ -24,14 +24,15 @@ public class RocketLauncher : Gun
 
     protected override void CreateBullet()
     {
+        gameData.GunBullets[slot]--;
         Bullet rocket = new Rocket(player);
-        rocket.x = bulletSpawnLocationX;
-        rocket.y = bulletSpawnLocationY;
+        Console.WriteLine(bulletSpawnLocationX+" "+ bulletSpawnLocationY);
+        rocket.SetXY(bulletSpawnLocationX, bulletSpawnLocationY);
         rocket.rotation = angle;
         rocket.SetDamage(damage);
         Tween tween = new Tween(TweenProperty.x,TweenProperty.y,TweenProperty.rotation,tweenTime,tweenDelta,1);
         camera.AddChild(tween);
-        parent.AddChild(rocket);
+        parent.parent.AddChild(rocket);
         SoundChannel shotSoundChannel = shotSound.Play();
         shotSoundChannel.Volume = targetVolume;
     }

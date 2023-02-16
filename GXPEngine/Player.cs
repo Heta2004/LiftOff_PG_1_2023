@@ -201,8 +201,7 @@ public class Player : AnimationSprite {
                         AddWeaponAndAmmo(gameData.MOSIN,gameData.MAXMOSINBULLETS);
                         break;
                     case "rocketLauncher":
-                        //gameData.gunArray.Add(3);
-                        //gameData.GunBullets.Add(gameData.MAXROCKETLAUNCHERBULLETS);
+                        AddWeaponAndAmmo(gameData.ROCKETLAUNCHER, gameData.MAXROCKETLAUNCHERBULLETS);
                         break;
                     case "sniper":
                         AddWeaponAndAmmo(gameData.SNIPER,gameData.MAXSNIPERBULLETS);

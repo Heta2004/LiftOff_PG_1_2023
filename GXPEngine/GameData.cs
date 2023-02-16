@@ -71,8 +71,8 @@ public class GameData : GameObject {
         playerMaxHp = 1000000;
         playerArmor = 0;
         playerSpeedIncrease = 0;
-        guns = new int[] { 1,2,4 };
-        bullets=new int[] { MAXAKBULLETS,MAXMOSINBULLETS,MAXSNIPERBULLETS };
+        guns = new int[] { 1,2,3,4 };
+        bullets=new int[] { MAXAKBULLETS,MAXMOSINBULLETS,MAXROCKETLAUNCHERBULLETS,MAXSNIPERBULLETS };
         gunArray = new List<int>(guns);
         GunBullets= new List<int>(bullets);
         gunNumber = 0;
