@@ -8,6 +8,8 @@ using System.Drawing;
 using GXPEngine;
 using System.Xml;
 using TiledMapParser;
+using System.Runtime.Remoting.Messaging;
+using System.Reflection;
 
 public class UI : GameObject
 {
@@ -19,7 +21,12 @@ public class UI : GameObject
     EasyDraw scoreCounter = new EasyDraw(100, 100, false);
     EasyDraw timer=new EasyDraw(120, 100, false);
     EasyDraw stage = new EasyDraw(100,100,false);
+    EasyDraw bulletCounter=new EasyDraw(100,100,false);
 
+    Sprite clock = new Sprite("Clock.png",false,false);
+    
+    Sprite pointer = new Sprite("Pointer.png",false,false);
+    
     bool addedStage = false;
     int lastScore;
 
@@ -35,9 +42,17 @@ public class UI : GameObject
         scoreCounter.Text(String.Format("Score : {0}", gameData.score));
         AddChild(scoreCounter);
 
+        bulletCounter.TextSize(8);
+        bulletCounter.TextAlign(CenterMode.Center, CenterMode.Min);
+        AddChild(bulletCounter);
+
+        clock.SetOrigin(clock.width / 2, clock.height / 2);
+        pointer.SetOrigin(pointer.width / 2, 0);
+        pointer.rotation = 90;
+        clock.AddChild(pointer);
 
         timer.TextSize(10);
-        timer.TextAlign(CenterMode.Center,CenterMode.Min);
+        timer.TextAlign(CenterMode.Center, CenterMode.Min);
         AddChild(timer);
 
 
@@ -49,11 +64,14 @@ public class UI : GameObject
     }
 
     void Update(){
+        //pointer.rotation++;
         var result = camera.ScreenPointToGlobal(0, 0);
         UpdateLocations(result.x,result.y);
         AddCashCounter();
-        AddTimer();
+        //AddTimer();
         AddStage();
+        RotateClock();
+        BulletCounter();
     }
 
     public void AddPlayerHpBar(float hpPercentage,int playerHp) {
@@ -83,39 +101,65 @@ public class UI : GameObject
 
     }
 
-    void AddTimer(){
-        if (levelName == "Level1.tmx"){
-            timer.graphics.Clear(Color.Empty);
-            switch (gameData.gameState) {
-                case 1:
-                    timer.Text(String.Format("Day time left : {0}", ((gameData.dayLength - Time.time + gameData.levelStartTime) / 1000) + 1));
-                    break;
-                case 2:
-                    timer.Text(String.Format("Night time left : {0}", ((gameData.nightLength+gameData.dayLength - Time.time + gameData.levelStartTime) / 1000) + 1));
-                    break;
-            
-            }
-            
-            
+    void RotateClock(){
+        if (levelName == "Level1.tmx") { 
+            float targetChange = 360 / ((float)(gameData.dayLength + gameData.nightLength) / 1000);
+            Console.WriteLine(targetChange);
+            int deltaTimeClamped = Math.Min(Time.deltaTime, 40);
+            float finalChange = targetChange * deltaTimeClamped / 1000;
+            pointer.rotation += finalChange;
         }
+    }
+
+    //void AddTimer(){
+    //    if (levelName == "Level1.tmx")
+    //    {
+    //        timer.graphics.Clear(Color.Empty);
+    //        switch (gameData.gameState)
+    //        {
+    //            case 1:
+    //                timer.Text(String.Format("Day time left : {0}", ((gameData.dayLength - Time.time + gameData.levelStartTime) / 1000) + 1));
+    //                break;
+    //            case 2:
+    //                timer.Text(String.Format("Night time left : {0}", ((gameData.nightLength + gameData.dayLength - Time.time + gameData.levelStartTime) / 1000) + 1));
+    //                break;
+
+    //        }
+
+    //    }
+
+    //}
+
+    void BulletCounter(){
+        if (levelName == "Level1.tmx"){
+            bulletCounter.graphics.Clear(Color.Empty);
+            if (gameData.selectedWeapon!=-1)
+                bulletCounter.Text(String.Format("Bullets : {0}", gameData.GunBullets[gameData.selectedWeapon]));
+        }
+
     }
 
     void AddStage() {
         if (!addedStage&& levelName == "Level1.tmx") { 
             stage.graphics.Clear(Color.Empty);
-            stage.Text(String.Format("Stage : {0}", gameData.stage + 1));
+            stage.Text(String.Format("Day : {0}", gameData.stage + 1));
             addedStage = true;
         }
     }
 
     public void SetLevel(String pLevel){
         levelName = pLevel;
+        if (levelName == "Level1.tmx") {
+            AddChild(clock);
+        }
     }
     void UpdateLocations(float x,float y) {
         hpBar.SetXY(x+10, y+10);
-        scoreCounter.SetXY(x+475, y+10);
-        stage.SetXY(x+250,y+8);
-        timer.SetXY(x+240,y+33);
+        scoreCounter.SetXY(x+575, y+10);//475
+        stage.SetXY(x+281,y+8);//280
+        timer.SetXY(x+270,y+33);
+        clock.SetXY(x + 330, y + 50);//50
+        bulletCounter.SetXY(x,y+35);
     }
 
 }

@@ -13,7 +13,7 @@ public class MyGame : Game {
     GameData gameData=new GameData();
     public bool reset = false;
     Sound music = new Sound("song.mp3",true,true);
-    public MyGame() : base(600, 450, false,true,1200,900,true) {
+    public MyGame() : base(683, 384, false,true,1366,768,true) {
         game.RenderMain = false;
         SoundChannel soundChannel = music.Play(false,0,0.30f);
         game.OnAfterStep += CheckLoadLevel; 

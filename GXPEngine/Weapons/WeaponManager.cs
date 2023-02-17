@@ -93,6 +93,7 @@ public class WeaponManager:AnimationSprite{
     public void SetGameData(GameData pGameData)
     {
         gameData = pGameData;
+        gameData.selectedWeapon = 0;
     }
 
     void ThrowWeapon()
@@ -131,10 +132,12 @@ public class WeaponManager:AnimationSprite{
         bool change = false;
         if (Input.GetKeyUp(Key.X)) {
             selectedWeapon++;
+            gameData.selectedWeapon= selectedWeapon;
             change = true;
         }
         if (selectedWeapon > gameData.gunArray.Count - 1) { 
-            selectedWeapon = 0; 
+            selectedWeapon = 0;
+            gameData.selectedWeapon = selectedWeapon;
         }
         if (change) {
             gun.Destroy();

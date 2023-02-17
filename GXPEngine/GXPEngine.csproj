@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enemies\Minotaur.cs" />
     <Compile Include="Tiles\Teleporter.cs" />
     <Compile Include="Tiles\TeleporterManager.cs" />
     <Compile Include="Weapons\AK.cs" />

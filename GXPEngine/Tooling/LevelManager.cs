@@ -17,7 +17,7 @@ public class Level : GameObject{
     Player player;
     TiledLoader loader;
     string currentLevelName;
-    Camera camera = new Camera(0, 0, 600, 450);
+    Camera camera = new Camera(0, 0, 683, 384);
     GameData gameData;
     UI ui;
     long startTime;
@@ -93,7 +93,7 @@ public class Level : GameObject{
 
         player = FindObjectOfType<Player>();
         if (player == null) { 
-            camera.SetXY(300,225);
+            camera.SetXY(341,192);
             AddChild(camera); 
         }
         else{
@@ -155,10 +155,10 @@ public class Level : GameObject{
             ((MyGame)game).reset = true;
             ((MyGame)game).LoadLevel("mainMenu.tmx");
         }
-        if (currentLevelName != "mainMenu.tmx")
+        if (currentLevelName == "Level1.tmx")
             if (Time.time - startTime > (float)gameData.dayLength / 3 * 2&& Time.time - startTime<=gameData.dayLength) {
-                float targetChange=((float)gameData.dayLength/30000)* blackThingAlphaTarget;
-                float targetChangeFog = ((float)gameData.dayLength / 30000) * fogOfWarAlphaTarget;
+                float targetChange= blackThingAlphaTarget/((float)gameData.dayLength/3000);
+                float targetChangeFog = fogOfWarAlphaTarget/((float)gameData.dayLength / 3000);
                 int deltaTimeClamped = Math.Min(Time.deltaTime, 40);
                 float finalChange = targetChange * deltaTimeClamped / 1000;
                 float finalChangeFog = targetChangeFog * deltaTimeClamped / 1000;
@@ -168,10 +168,10 @@ public class Level : GameObject{
 
         if (Time.time - startTime >= gameData.dayLength)
             gameData.gameState = gameData.NIGHT;
-        if (currentLevelName!= "mainMenu.tmx")
+        if (currentLevelName== "Level1.tmx")
             if (Time.time - startTime > (float)gameData.dayLength + (float)gameData.nightLength / 3 * 2 && Time.time - startTime <= gameData.dayLength + gameData.nightLength){
-                float targetChange = ((float)gameData.dayLength / 30000) * blackThingAlphaTarget;
-                float targetChangeFog= ((float)gameData.dayLength / 30000) * fogOfWarAlphaTarget;
+                float targetChange = blackThingAlphaTarget/((float)gameData.dayLength / 3000);
+                float targetChangeFog= fogOfWarAlphaTarget/((float)gameData.dayLength / 3000);
                 int deltaTimeClamped = Math.Min(Time.deltaTime, 40);
                 float finalChange = targetChange * deltaTimeClamped / 1000;
                 float finalChangeFog = targetChangeFog * deltaTimeClamped / 1000;
@@ -185,7 +185,7 @@ public class Level : GameObject{
             if (Time.time - startTime >= gameData.dayLength + gameData.nightLength){
                 gameData.scoreMultiplier += gameData.scoreMultiplierIncrease;
                 gameData.gameState=gameData.DAY;
-                ((MyGame)game).LoadLevel("Level1.tmx");
+                ((MyGame)game).LoadLevel("ShopAndShit.tmx");
             }
 
     }

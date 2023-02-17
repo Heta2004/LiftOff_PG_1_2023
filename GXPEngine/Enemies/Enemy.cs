@@ -106,6 +106,7 @@ public class Enemy:AnimationSprite{
         damage = pDamage;
         hp=pHp;
         maxHp = hp;
+        
         ShowHealthBar();
     }
 
@@ -117,6 +118,15 @@ public class Enemy:AnimationSprite{
     public void SetGameData(GameData pGameData)
     {
         gameData = pGameData;
+        if (gameData != null && gameData.gameState == gameData.NIGHT)
+        {
+            Console.WriteLine("working");
+            speed += speed * gameData.nightSpeedIncrease;
+            maxHp += (int)((float)maxHp * gameData.nightHPIncrease);
+            hp = maxHp;
+            damage += (int)((float)damage * gameData.nightDamageIncrease);
+            ShowHealthBar();
+        }
     }
 
     public void ChangeDamagedByExplosion() { 

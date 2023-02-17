@@ -48,7 +48,8 @@ public class TankEnemy : Enemy
     }
 
     void Dash() {
-        speed = lastSpeed * speedMultiplier;
+        //speed = lastSpeed * speedMultiplier;
+        speed += lastSpeed * (speedMultiplier/2f);
         MoveEnemy(lastRotation);
         if (Time.time-dashStartTime> dashDuration)
         {

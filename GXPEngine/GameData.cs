@@ -45,8 +45,8 @@ public class GameData : GameObject {
     public int[] stageLength = new int[5] { 30000, 40000, 45000, 50000, 60000 };
     public long levelStartTime;
 
-    public int dayLength = 10000;//60000
-    public int nightLength = 10000;//30000
+    public int dayLength = 45000;//60000
+    public int nightLength = 45000;//30000
 
     public int DAY = 1;
     public int NIGHT = 2;
@@ -59,16 +59,24 @@ public class GameData : GameObject {
 
     public float speedDecreaseMutliplier = (1f / 3);
 
+
+    public float nightSpeedIncrease = 0.1f;
+    public float nightHPIncrease = 0.25f;
+    public float nightDamageIncrease = 0.25f;
+
+    public int selectedWeapon;
+
     public GameData(){
         Reset();
     }
 
 
     public void Reset() {
+        selectedWeapon= 0;
         score = 0;
         scoreMultiplier=1;
         gameState = DAY;
-        playerMaxHp = 1000000;
+        playerMaxHp = 500;
         playerArmor = 0;
         playerSpeedIncrease = 0;
         guns = new int[] { 1,2,3,4 };
