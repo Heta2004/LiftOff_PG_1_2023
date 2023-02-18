@@ -31,6 +31,8 @@ public class Level : GameObject{
     float blackThingAlphaTarget = 0.65f;
     float fogOfWarAlphaTarget = 1f;
 
+    Minotaur minotaur;
+
     public Level(String filename, GameData pGameData)
     {
         AddChild(imageLayer);
@@ -63,7 +65,8 @@ public class Level : GameObject{
 
         gameData.changedLevel = true;
         //gameData.stage++;
-        if (currentLevelName == "Level1.tmx"){
+        if (currentLevelName == "Level1.tmx"||currentLevelName== "MinotaurLevel.tmx")
+        {
             gameData.stage++;
         }
         loader.rootObject = imageLayer;
@@ -74,14 +77,7 @@ public class Level : GameObject{
         loader.LoadTileLayers();
         loader.addColliders = true;
         loader.rootObject = objectLayer;
-        if (currentLevelName != "Level.tmx") {
-
-            loader.LoadObjectGroups();
-
-        }
-        else {
-            LoadMainLevel();
-        }
+        loader.LoadObjectGroups();
 
         if (currentLevelName != "mainMenu.tmx"&&currentLevelName!="end.tmx"){
             ui = new UI(gameData, camera);
@@ -101,6 +97,16 @@ public class Level : GameObject{
             player.SetGameData(gameData);
             player.SetUI(ui);
         }
+
+        if (currentLevelName == "MinotaurLevel.tmx")
+        {
+
+            minotaur = new Minotaur(player, gameData);
+            objectLayer.AddChild(minotaur);
+            minotaur.SetXY(380, 360);
+
+        }
+
 
         TutorialManager t=FindObjectOfType<TutorialManager>();
         if (t != null) {
@@ -145,6 +151,23 @@ public class Level : GameObject{
         objectLayer.AddChild(wpu);
         wpu.SetXY(700, 700);
 
+        //if (currentLevelName == "Level1.tmx")
+        //{
+        //    Minotaur minotaur = new Minotaur(player, gameData);
+        //    objectLayer.AddChild(minotaur);
+        //    minotaur.SetXY(850, 850);
+        //}
+
+        Button[] button=FindObjectsOfType<Button>();
+        foreach (Button i in button) { 
+            i.SetGameData(gameData);
+        }
+
+        DestructibleWall[] ds= FindObjectsOfType<DestructibleWall>();
+        foreach (DestructibleWall d in ds)
+        {
+            d.SetMinotaur(minotaur);
+        }
     }
 
     void Update() {
@@ -181,13 +204,23 @@ public class Level : GameObject{
 
 
 
-        if (gameData.stage != -1 && currentLevelName != "mainMenu.tmx")
+        if (gameData.stage != -1 && currentLevelName != "mainMenu.tmx"&&currentLevelName!= "MinotaurLevel.tmx")
             if (Time.time - startTime >= gameData.dayLength + gameData.nightLength){
                 gameData.scoreMultiplier += gameData.scoreMultiplierIncrease;
                 gameData.gameState=gameData.DAY;
+                if (gameData.stage % 5 == 4){
+                    gameData.nextLevel="MinotaurLevel.tmx";
+                }
+                else {
+                    gameData.nextLevel = "Level1.tmx";
+                }
                 ((MyGame)game).LoadLevel("ShopAndShit.tmx");
             }
-
+        if (currentLevelName == "MinotaurLevel.tmx") {
+            gameData.nextLevel = "Level1.tmx";
+            if (minotaur==null)
+                ((MyGame)game).LoadLevel("ShopAndShit.tmx");
+        }
     }
 
     void LoadMainLevel() {

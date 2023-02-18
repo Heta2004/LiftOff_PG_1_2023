@@ -30,6 +30,10 @@ public class Enemy:AnimationSprite{
     protected int rocketDamageCooldown=200;
     protected int trapDamageCooldown = 500;
 
+    protected bool changeDirection = true;
+    protected float angle;
+    float backupPath;
+
     EasyDraw hpBar=new EasyDraw(25,25,false);
 
     public Enemy(string filename,int cols,int rows,Player pPlayer) : base(filename,cols,rows){
@@ -54,19 +58,187 @@ public class Enemy:AnimationSprite{
 
         var result = TransformPoint(player.x, player.y);
         var result2 = TransformPoint(x, y);
-        float angle = Tools.DirectionRelatedTools.CalculateAngle(result2.x, result2.y, result.x, result.y);
+        angle = Tools.DirectionRelatedTools.CalculateAngle(result2.x, result2.y, result.x, result.y);
         MoveEnemy(angle);
 
     }
+
 
     protected virtual void MoveEnemy(float angle) {
         rotation = angle;
         int deltaTimeClamped = Math.Min(Time.deltaTime, 40);
         float finalSpeed = speed * deltaTimeClamped / 1000;
+        float lastX = x;
+        float lastY = y;
+        float oldRotation = rotation;
+        int lastTry = -1;
         Move(finalSpeed, 0);
+
+        GameObject[] overlaps = GetCollisions(false, true);
+
+
+        if (changeDirection)
+        {
+            if (overlaps.Length > 0)
+            {
+                SetXY(lastX, lastY);
+                switch ((int)(oldRotation / 45))
+                {
+                    case 0:
+                        rotation = 90;
+                        break;
+                    case 1:
+                        rotation = 180;
+                        break;
+                    case 2:
+                        rotation = 180;
+                        break;
+                    case 3:
+                        rotation = 270;
+                        break;
+                    case 4:
+                        rotation = 270;
+                        break;
+                    case 5:
+                        rotation = 360;
+                        break;
+                    case 6:
+                        rotation = 360;
+                        break;
+                    case 7:
+                        rotation = 450;
+                        break;
+
+                }
+                backupPath = rotation;
+                Move(finalSpeed, 0);
+                overlaps = GetCollisions(false, true);
+                lastTry++;
+            }
+        }
+        else {
+            if (overlaps.Length > 0) {
+                SetXY(lastX, lastY);
+
+            }
+
+
+        }
+
+
+
+        //if (x==lastX&& y==lastY){
+        //    rotation = backupPath;
+        //    Move(finalSpeed,0);
+        //}
         rotation = 0;
-        
+
+
+        //while (lastTry < 2 && overlaps.Length > 0){
+        //    SetXY(lastX, lastY);
+        //    switch (lastTry)
+        //    {
+        //        case 0:
+        //            rotation = oldRotation+(90-(oldRotation%90));
+        //            break;
+        //        case 1:
+        //            rotation = oldRotation - (oldRotation%90);
+        //            break;
+        //    }
+        //    Move(finalSpeed, 0);
+        //    overlaps = GetCollisions(false, true);
+        //    lastTry++;
+        //}
+
+        //rotation = 0;
+
+        //if (changeDirection)
+        //{
+        //    while (lastTry < 2 && overlaps.Length > 0)
+        //    {
+        //        SetXY(lastX, lastY);
+        //        switch (lastTry)
+        //        {
+        //            case 0:
+        //                rotation = oldRotation - 90;
+        //                break;
+        //            case 1:
+        //                rotation = oldRotation + 90;
+        //                break;
+        //        }
+        //        Move(finalSpeed, 0);
+        //        overlaps = GetCollisions(false, true);
+        //        lastTry++;
+        //    }
+
+        //}
+        //else{
+        //    if (overlaps.Length > 0)
+        //        SetXY(lastX, lastY);
+        //}
+
+
+        //while (lastTry < 2 && overlaps.Length > 0)
+        //{
+        //    SetXY(lastX, lastY);
+        //    switch (lastTry)
+        //    {
+        //        case 0:
+        //            rotation = oldRotation - 90;
+        //            break;
+        //        case 1:
+        //            rotation = oldRotation + 90;
+        //            break;
+        //    }
+        //    Move(finalSpeed, 0);
+        //    overlaps = GetCollisions(false, true);
+        //    lastTry++;
+        //}
+
+        //rotation = 0;
+
+
+        //GameObject[] overlaps = GetCollisions(false, true);
+        //if (overlaps.Length > 0){
+        //    Console.WriteLine("rhanks?");
+        //    SetXY(lastX, lastY);
+        //}
+
+        //if (changeDirection&&overlaps.Length > 0) {
+
+        //    rotation -= 90;
+        //    //rotation += 90;
+        //    Move(finalSpeed, 0);
+        //}
+        //rotation = 0;
     }
+
+
+    //protected virtual void MoveEnemy(float angle)
+    //{
+    //    rotation = angle;
+    //    int deltaTimeClamped = Math.Min(Time.deltaTime, 40);
+    //    float finalSpeed = speed * deltaTimeClamped / 1000;
+    //    float lastX = x;
+    //    float lastY = y;
+    //    Move(finalSpeed, 0);
+
+    //    GameObject[] overlaps = GetCollisions(false, true);
+    //    if (overlaps.Length > 0)
+    //    {
+    //        Console.WriteLine("rhanks?");
+    //        SetXY(lastX, lastY);
+    //    }
+
+    //    if (changeDirection && overlaps.Length > 0)
+    //    {
+
+    //        rotation -= 90;
+    //        //rotation += 90;
+    //        Move(finalSpeed, 0);
+    //    }
+    //    rotation = 0;
+    //}
 
     public void DamageEnemy(int damage){
         hp -= damage;

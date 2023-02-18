@@ -16,6 +16,7 @@ public class TankEnemy : Enemy
     int dashStartTime = 0;
     int dashDuration = 900;
     float lastRotation;
+    int dashCooldown = 3000;
 
     public TankEnemy(Player pPlayer) : base("TankRun.png",4,1, pPlayer){
         EnemySetStats(85f, 25, 200);
@@ -28,8 +29,9 @@ public class TankEnemy : Enemy
 
         switch (state) {
             case CHASE:
+                changeDirection = true;
                 base.ChasePlayer();
-                if (DirectionRelatedTools.CalculateDistance(x, y, player.x, player.y) < 100){
+                if (DirectionRelatedTools.CalculateDistance(x, y, player.x, player.y) < 100&&(Time.time-(dashStartTime+dashDuration)>dashCooldown)){
                     state = DASH;
                     dashStartTime = Time.time;
                     lastRotation = DirectionRelatedTools.CalculateAngle(x,y,player.x,player.y);
@@ -49,12 +51,14 @@ public class TankEnemy : Enemy
 
     void Dash() {
         //speed = lastSpeed * speedMultiplier;
+        changeDirection = false;
         speed += lastSpeed * (speedMultiplier/2f);
         MoveEnemy(lastRotation);
         if (Time.time-dashStartTime> dashDuration)
         {
             state = CHASE;
         }
+
 
     }
 

@@ -60,8 +60,8 @@ public class EnemyMarker:Sprite{
     }
     void ChooseSpawnLocation(){
         var rand = new Random();
-        x = rand.Next(350, 1030);
-        y = rand.Next(350, 1030);
+        x = rand.Next(380, 1000);
+        y = rand.Next(380, 1000);
     }
 
     void SpawnEnemy() {

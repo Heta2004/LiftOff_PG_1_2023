@@ -39,9 +39,34 @@ public class EnemySpawnManager : AnimationSprite {
     }
 
     void SpawnEnemy() {
-        if (gameData.stage > 4)
-            gameData.stage--;
-        if (Time.time > delayPerStage[gameData.stage] +lastSpawnTime && gameData.stage != -1 && enemyNumber < maxEnemyPerStage[gameData.stage] &&player!=null) {
+        int maxEnemies,delay;
+
+        if (gameData.gameState == gameData.NIGHT) {
+            if (gameData.stage > 4){
+                maxEnemies = maxEnemyPerStage[4];
+                delay = delayPerStage[4];
+            }
+            else {
+                maxEnemies = maxEnemyPerStage[gameData.stage];
+                delay = delayPerStage[gameData.stage];
+            }
+        }
+        else {
+            if (gameData.stage <= 4){
+                maxEnemies = maxEnemyPerStage[4]/2;
+                delay = delayPerStage[4]*2;
+            }
+            else
+            {
+                maxEnemies = maxEnemyPerStage[gameData.stage]/2;
+                delay = delayPerStage[gameData.stage]*2;
+            }
+
+
+        }
+ 
+            maxEnemies=maxEnemyPerStage[4];
+        if (Time.time > delay +lastSpawnTime && enemyNumber < maxEnemies &&player!=null) {
             lastSpawnTime= Time.time;
             enemyNumber++;
             var rand = new Random();

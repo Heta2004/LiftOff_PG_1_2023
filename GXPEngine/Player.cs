@@ -45,6 +45,7 @@ public class Player : AnimationSprite {
     public Player(string filename, int cols, int rows, TiledObject obj = null) : base(filename,cols,rows) {
         SetOrigin(width/2,height/2);
         SetCycle(0,12);
+        collider.isTrigger = true;
     }
 
     void Update() {
@@ -195,37 +196,38 @@ public class Player : AnimationSprite {
             if (col is WeaponPickUp){
                 switch (((WeaponPickUp)col).CheckWeaponType()){
                     case "ak":
-                        AddWeaponAndAmmo(gameData.AK,gameData.MAXAKBULLETS);
+                        AddWeaponAndAmmo(gameData.AK,gameData.MAXAKBULLETS,col);
                         break;
                     case "mosin":
-                        AddWeaponAndAmmo(gameData.MOSIN,gameData.MAXMOSINBULLETS);
+                        AddWeaponAndAmmo(gameData.MOSIN,gameData.MAXMOSINBULLETS,col);
                         break;
                     case "rocketLauncher":
-                        AddWeaponAndAmmo(gameData.ROCKETLAUNCHER, gameData.MAXROCKETLAUNCHERBULLETS);
+                        AddWeaponAndAmmo(gameData.ROCKETLAUNCHER, gameData.MAXROCKETLAUNCHERBULLETS, col);
                         break;
                     case "sniper":
-                        AddWeaponAndAmmo(gameData.SNIPER,gameData.MAXSNIPERBULLETS);
+                        AddWeaponAndAmmo(gameData.SNIPER,gameData.MAXSNIPERBULLETS, col);
                         break;
                     default:
                         Console.WriteLine("fix the game");
                         break;
                 }
-                col.Destroy();
+                
             }
 
         }
 
     }
 
-    void AddWeaponAndAmmo(int weaponType,int bullets) {
+    void AddWeaponAndAmmo(int weaponType,int bullets,GameObject col) {
         bool exists = false;
         for (int i = 0; i < gameData.gunArray.Count; i++)
             if (gameData.gunArray[i] == weaponType){
                 gameData.GunBullets[i] = bullets;
                 exists = true;
+                col.Destroy();
                 break;
             }
-        if (!exists&& gameData.gunArray.Count < 4)
+        if (!exists&& gameData.gunArray.Count < gameData.maxGunNumber)
         {
             gameData.gunArray.Add(weaponType);
             gameData.GunBullets.Add(bullets);

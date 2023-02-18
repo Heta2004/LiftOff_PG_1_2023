@@ -104,31 +104,11 @@ public class UI : GameObject
     void RotateClock(){
         if (levelName == "Level1.tmx") { 
             float targetChange = 360 / ((float)(gameData.dayLength + gameData.nightLength) / 1000);
-            Console.WriteLine(targetChange);
             int deltaTimeClamped = Math.Min(Time.deltaTime, 40);
             float finalChange = targetChange * deltaTimeClamped / 1000;
             pointer.rotation += finalChange;
         }
     }
-
-    //void AddTimer(){
-    //    if (levelName == "Level1.tmx")
-    //    {
-    //        timer.graphics.Clear(Color.Empty);
-    //        switch (gameData.gameState)
-    //        {
-    //            case 1:
-    //                timer.Text(String.Format("Day time left : {0}", ((gameData.dayLength - Time.time + gameData.levelStartTime) / 1000) + 1));
-    //                break;
-    //            case 2:
-    //                timer.Text(String.Format("Night time left : {0}", ((gameData.nightLength + gameData.dayLength - Time.time + gameData.levelStartTime) / 1000) + 1));
-    //                break;
-
-    //        }
-
-    //    }
-
-    //}
 
     void BulletCounter(){
         if (levelName == "Level1.tmx"){
