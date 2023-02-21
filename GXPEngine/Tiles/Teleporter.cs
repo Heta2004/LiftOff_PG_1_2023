@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using GXPEngine;
 using TiledMapParser;
+using Tools;
 
 public class Teleporter:AnimationSprite{
     Player player;
@@ -13,11 +14,12 @@ public class Teleporter:AnimationSprite{
     TeleporterManager tm;
     int number;
     public Teleporter(string filename, int cols, int rows, TiledObject obj = null) : base(filename, cols, rows) {
-        number = obj.GetIntProperty("number");
+        collider.isTrigger= true;
     }
 
     void Update() {
-        if (HitTest(player)&&activated) {
+        
+        if (HitTest(player)&&activated&&DirectionRelatedTools.CalculateDistance(x,y,player.x,player.y)<=20) {
             tm.ChooseTarget(this);   
         }
     }
@@ -34,6 +36,15 @@ public class Teleporter:AnimationSprite{
 
     public void ChangeActivation() {
         activated = !activated;
+        Animate(1);
+    }
+
+    public void SetPlayer(Player pPlayer) { 
+        player= pPlayer;
+    }
+
+    public void SetNumber(int pNumber) { 
+        number=pNumber;
     }
 
 }

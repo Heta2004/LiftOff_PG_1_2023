@@ -40,6 +40,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enemies\Minotaur\AoeSlam.cs" />
+    <Compile Include="Enemies\Minotaur\AoeSpikes.cs" />
+    <Compile Include="Enemies\Minotaur\Minotaur.cs" />
+    <Compile Include="Enemies\StandardEnemyBase.cs" />
+    <Compile Include="PowerUps\FlameThrowerPickUp.cs" />
+    <Compile Include="PowerUps\SpeedPickUp.cs" />
+    <Compile Include="Tiles\BreakableVase.cs" />
+    <Compile Include="Tiles\DestructibleWall.cs" />
     <Compile Include="Tiles\Teleporter.cs" />
     <Compile Include="Tiles\TeleporterManager.cs" />
     <Compile Include="Weapons\AK.cs" />
@@ -61,6 +69,7 @@
     <Compile Include="GXPEngine\AddOns\TiledLoader.cs" />
     <Compile Include="HpDrop.cs" />
     <Compile Include="Tooling\LevelManager.cs" />
+    <Compile Include="Weapons\InfiniteKnife.cs" />
     <Compile Include="Weapons\Mosin.cs" />
     <Compile Include="MyGame.cs" />
     <Compile Include="GXPEngine\Core\Canvas.cs" />
@@ -107,11 +116,11 @@
     <Compile Include="Weapons\RocketLauncher.cs" />
     <Compile Include="Tooling\ScorePopUp.cs" />
     <Compile Include="Shop\SellButton.cs" />
-    <Compile Include="Enemies\Shooter.cs" />
+    <Compile Include="Enemies\StandardEnemies\Shooter.cs" />
     <Compile Include="Shop\ShopManager.cs" />
     <Compile Include="Tiles\SlowTile.cs" />
-    <Compile Include="Enemies\StandardEnemy.cs" />
-    <Compile Include="Enemies\TankEnemy.cs" />
+    <Compile Include="Enemies\StandardEnemies\StandardEnemy.cs" />
+    <Compile Include="Enemies\StandardEnemies\TankEnemy.cs" />
     <Compile Include="Weapons\Sniper.cs" />
     <Compile Include="Weapons\ThrownWeapon.cs" />
     <Compile Include="Enemies\TrainingDummy.cs" />

@@ -18,10 +18,10 @@ public class WeaponManager:AnimationSprite{
     const int MOSIN = 2;
     const int ROCKETLAUNCHER = 3;
     const int SNIPER = 4;
+    const int KNIFE = 5;
 
     Gun gun;
     string weaponString;
-    int selectedWeapon = 0;
 
     //int gunX = 10;
     //int gunY = 0;
@@ -34,8 +34,8 @@ public class WeaponManager:AnimationSprite{
         //if (selectedWeapon!=-1)
         //Console.WriteLine(gameData.GunBullets[selectedWeapon]);
 
-        if (gameData.changedLevel&&gameData.gunArray.Count>0&&selectedWeapon>=0&&selectedWeapon<gameData.gunArray.Count) { 
-            SpawnWeapon(gameData.gunArray[selectedWeapon]);
+        if (gameData.changedLevel&&gameData.gunArray.Count>0&&gameData.selectedWeapon>=0&&gameData.selectedWeapon<gameData.gunArray.Count) { 
+            SpawnWeapon(gameData.gunArray[gameData.selectedWeapon]);
             gameData.changedLevel= false;
         }
 
@@ -70,8 +70,14 @@ public class WeaponManager:AnimationSprite{
                 player.AddChild(gun);
                 weaponString = "ak.png";
                 break;
+            case KNIFE:
+                gun = new InfiniteKnife(player, camera, gameData);
+                player.AddChild(gun);
+                gun.SetScaleXY(1/player.scaleX,1/player.scaleY);
+                weaponString = "";
+                break;
         }
-        gun.SetSlot(selectedWeapon);
+        gun.SetSlot(gameData.selectedWeapon);
     
     }
 
@@ -93,36 +99,34 @@ public class WeaponManager:AnimationSprite{
     public void SetGameData(GameData pGameData)
     {
         gameData = pGameData;
+        gameData.selectedWeapon = 0;
     }
 
     void ThrowWeapon()
     {
 
-        if (Input.GetKeyUp(Key.G) && gameData.gunArray.Count > 0)
-        {
-            Console.WriteLine(gameData.gunArray.Count+" "+selectedWeapon);
+        if (Input.GetKeyUp(Key.G) && gameData.gunArray.Count > 0&&!(gun is InfiniteKnife)){
             var result = camera.ScreenPointToGlobal(Input.mouseX, Input.mouseY);
-            Console.WriteLine(gun.x);
 
             float angle = Tools.DirectionRelatedTools.CalculateAngle(gun.x+player.x, gun.y+player.y, result.x, result.y);
-            Console.WriteLine(weaponString);
             ThrownWeapon bullet = new ThrownWeapon(player, weaponString);
             bullet.SetXY(gun.x + player.x, gun.y + player.y);
             bullet.rotation = angle;
             parent.AddChild(bullet);
 
             gun.Destroy();
-            if (selectedWeapon != -1) {
-                gameData.gunArray.RemoveAt(selectedWeapon);
-                gameData.GunBullets.RemoveAt(selectedWeapon);
+            if (gameData.selectedWeapon != -1) {
+                gameData.gunArray.RemoveAt(gameData.selectedWeapon);
+                gameData.GunBullets.RemoveAt(gameData.selectedWeapon);
             }
 
-            if (selectedWeapon>gameData.gunArray.Count-1){ 
-                selectedWeapon--; 
+            if (gameData.selectedWeapon > gameData.gunArray.Count-1){ 
+                //selectedWeapon--;
+                gameData.selectedWeapon--;
             }   
             
             if (gameData.gunArray.Count > 0)
-                SpawnWeapon(gameData.gunArray[selectedWeapon]);
+                SpawnWeapon(gameData.gunArray[gameData.selectedWeapon]);
         }
 
     }
@@ -130,16 +134,16 @@ public class WeaponManager:AnimationSprite{
     void SwitchWeapons() {
         bool change = false;
         if (Input.GetKeyUp(Key.X)) {
-            selectedWeapon++;
+            gameData.selectedWeapon++;
             change = true;
         }
-        if (selectedWeapon > gameData.gunArray.Count - 1) { 
-            selectedWeapon = 0; 
+        if (gameData.selectedWeapon > gameData.gunArray.Count - 1) { 
+            gameData.selectedWeapon = 0;
         }
         if (change) {
             gun.Destroy();
             if (gameData.gunArray.Count>0)
-                SpawnWeapon(gameData.gunArray[selectedWeapon]);
+                SpawnWeapon(gameData.gunArray[gameData.selectedWeapon]);
         }
 
 

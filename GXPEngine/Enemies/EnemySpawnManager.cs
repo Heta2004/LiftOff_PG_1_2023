@@ -25,7 +25,7 @@ public class EnemySpawnManager : AnimationSprite {
                                         };
 
 
-    int[] maxEnemyPerStage = new int[5]{10,15,20,25,30};
+    int[] maxEnemyPerStage = new int[5]{10,15,20,25,1};
     int[] delayPerStage = new int[5] { 1000, 800, 750, 700, 650 };
 
     Player player;
@@ -39,19 +39,44 @@ public class EnemySpawnManager : AnimationSprite {
     }
 
     void SpawnEnemy() {
-        if (gameData.stage > 4)
-            gameData.stage--;
-        if (Time.time > delayPerStage[gameData.stage] +lastSpawnTime && gameData.stage != -1 && enemyNumber < maxEnemyPerStage[gameData.stage] &&player!=null) {
+        int maxEnemies,delay;
+
+        if (gameData.gameState == gameData.NIGHT) {
+            if (gameData.stage > 4){
+                maxEnemies = maxEnemyPerStage[4];
+                delay = delayPerStage[4];
+            }
+            else {
+                maxEnemies = maxEnemyPerStage[gameData.stage];
+                delay = delayPerStage[gameData.stage];
+            }
+        }
+        else {
+            if (gameData.stage > 4){
+                maxEnemies = maxEnemyPerStage[4]/2;
+                delay = delayPerStage[4]*2;
+            }
+            else
+            {
+                maxEnemies = maxEnemyPerStage[gameData.stage]/2;
+                delay = delayPerStage[gameData.stage]*2;
+            }
+
+
+        }
+ 
+            maxEnemies=maxEnemyPerStage[4];
+        if (Time.time > delay +lastSpawnTime && enemyNumber < maxEnemies &&player!=null) {
             lastSpawnTime= Time.time;
             enemyNumber++;
             var rand = new Random();
             int randomNumber = rand.Next(1,101);
-            if (randomNumber <= spawnChances[gameData.stage,0]){
+            if (randomNumber <= spawnChances[Math.Min(gameData.stage,4),0]){
                 EnemyMarker em = new EnemyMarker("standard",gameData,this,player);
                 parent.AddChild(em);
             }
             else
-                if (randomNumber <= spawnChances[gameData.stage,1]){
+                if (randomNumber <= spawnChances[Math.Min(gameData.stage, 4), 1]){
                 EnemyMarker em = new EnemyMarker("tank", gameData, this, player);
                 parent.AddChild(em);
             }

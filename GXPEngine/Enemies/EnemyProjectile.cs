@@ -27,7 +27,7 @@ internal class EnemyProjectile : Bullet
                 ((Player)col).TakeDamage(damage);
                 this.LateDestroy();
             }
-            if (!(col is Enemy)&&!(col is Bullet) && !(col is EnemyProjectile))
+            if (col is Wall)
                 destroy = true;
         }
 

@@ -6,34 +6,44 @@ using System.Threading.Tasks;
 
 using GXPEngine;
 using TiledMapParser;
+using Tools;
 
-public class Shooter:Enemy{
+public class Shooter: StandardEnemyBase
+{
     protected int shotDamage = 15;
     protected int lastShootTime = 0;
     protected int ShootCooldown = 500;
 
     public Shooter(Player pPlayer) : base("Shooter.png", 4,1, pPlayer) {
-        EnemySetStats(165f, 10, 50);
-        lastSpeed = 165f;
+        EnemySetStats(80f, 10, 50);//165
+        
+        lastSpeed = 80f;
         scoreOnDeath = 60;
         player= pPlayer;
+        RandomizeSpeed(6, 15);
     }
 
-    protected override void MoveEnemy(float angle){
-        rotation = angle;
-        if (Tools.DirectionRelatedTools.CalculateDistance(x, y, player.x, player.y) < 200)
-        {
-            rotation = 0;
+    //protected override void MoveEnemy(float angle){
+    //    rotation = angle;
+    //    if (Tools.DirectionRelatedTools.CalculateDistance(x, y, player.x, player.y) < 200)
+    //    {
+    //        rotation = 0;
+    //        Shoot();
+    //    }
+    //    else {
+
+    //        int deltaTimeClamped = Math.Min(Time.deltaTime, 40);
+    //        float finalSpeed = speed * deltaTimeClamped / 1000;
+    //        Move(finalSpeed, 0);
+
+    //    }
+    //    rotation = 0;
+    //}
+    protected override void ChasePlayer()
+    {
+        base.ChasePlayer();
+        if (DirectionRelatedTools.CalculateDistance(x, y, player.x, player.y) < 150)
             Shoot();
-        }
-        else {
-
-            int deltaTimeClamped = Math.Min(Time.deltaTime, 40);
-            float finalSpeed = speed * deltaTimeClamped / 1000;
-            Move(finalSpeed, 0);
-
-        }
-        rotation = 0;
     }
 
     void Shoot() {

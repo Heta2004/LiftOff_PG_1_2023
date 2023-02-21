@@ -5,13 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 
 using GXPEngine;
-public class StandardEnemy : Enemy
+public class StandardEnemy : StandardEnemyBase
 {
 
     public StandardEnemy(Player pPlayer) : base("StandardEnemy.png",4,1, pPlayer){
-        EnemySetStats(165f,10,50);
-        lastSpeed = 165f;
+        EnemySetStats(80f,10,50);
+        lastSpeed = 80f;
         scoreOnDeath =20;
+        RandomizeSpeed(6, 15);
     }
 
 

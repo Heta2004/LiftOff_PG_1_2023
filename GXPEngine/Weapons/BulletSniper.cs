@@ -32,7 +32,7 @@ public class BulletSniper:Bullet{
                 break;
             }
 
-            if (col is Wall)
+            if (col is Wall||col is DestructibleWall)
                 destroy = true;
         }
 

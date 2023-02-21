@@ -11,6 +11,11 @@ public class Rocket:Bullet{
     public Rocket(Player player) : base(player,"Rocket.png") {
         speed = 700f;
     }
+    protected override void Update()
+    {
+        base.Update();
+        Console.WriteLine(x+" "+y);
+    }
 
     protected override void Destroy(bool destroy) {
         if (destroy){

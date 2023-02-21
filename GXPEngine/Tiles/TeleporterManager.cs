@@ -13,18 +13,21 @@ public class TeleporterManager:GameObject{
 
 
     public TeleporterManager() : base() { 
-            
-            
-            
+     
     }
 
     public void ChooseTarget(Teleporter currentTeleporter) {
         var rand = new Random();
         int randomNumber=currentTeleporter.GetNumber();
-        previousDeactivation= randomNumber;
+        if (previousDeactivation!=-1)
+            teleporters[previousDeactivation].ChangeActivation();
+        Console.WriteLine(randomNumber);
         while (randomNumber==currentTeleporter.GetNumber()) {
+            Console.WriteLine(randomNumber);
             randomNumber = rand.Next(0, teleporters.Length);
         }
+        Console.WriteLine(randomNumber);
+        previousDeactivation = randomNumber;
         currentTeleporter.Teleport(teleporters[randomNumber].x, teleporters[randomNumber].y);
         teleporters[randomNumber].ChangeActivation(); 
     }
