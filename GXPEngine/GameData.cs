@@ -26,6 +26,7 @@ public class GameData : GameObject {
     public int ARMORCOST = 40;
 
     public float SPEEDINCREASE = 0.1f;
+    public float SPEEDINCREASEPICKUP = 0.25f;
     public int SPEEDINCREASECOST = 45;
 
     public int HPONPICKUP = 10; 
@@ -47,8 +48,8 @@ public class GameData : GameObject {
     public int[] stageLength = new int[5] { 30000, 40000, 45000, 50000, 60000 };
     public long levelStartTime;
 
-    public int dayLength = 5000;//45000
-    public int nightLength = 5000;//45000
+    public int dayLength = 45000;//45000
+    public int nightLength = 45000;//45000
 
     public int DAY = 1;
     public int NIGHT = 2;
@@ -61,7 +62,6 @@ public class GameData : GameObject {
 
     public float speedDecreaseMutliplier = (1f / 3);
 
-
     public float nightSpeedIncrease = 0.1f;
     public float nightHPIncrease = 0.25f;
     public float nightDamageIncrease = 0.25f;
@@ -73,12 +73,16 @@ public class GameData : GameObject {
     public int minotaurSlamDamage = 50;
     public int minotaurSpikeDamage = 40;
 
+    public int speedBoostDuration = 10000;
+    public int money;
+
     public GameData(){
         Reset();
     }
 
 
     public void Reset() {
+        money = 0;
         selectedWeapon= 0;
         score = 0;
         scoreMultiplier=1;

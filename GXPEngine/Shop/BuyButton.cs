@@ -29,23 +29,23 @@ public class BuyButton : ButtonBase{
                 BuyWeapon(gameData.ROCKETLAUNCHER, gameData.ROCKETLAUNCHERCOST);
                 break;
             case "Hp":
-                if (gameData.score >= gameData.MAXHPCOST){
+                if (gameData.money >= gameData.MAXHPCOST){
                     sound.Play(false, 0, 0.5f);
-                    gameData.score -= gameData.MAXHPCOST;
+                    gameData.money -= gameData.MAXHPCOST;
                     gameData.playerMaxHp += gameData.MAXHPINCREASE;
                 }
                 break;
             case "Armor":
-                if (gameData.score >= gameData.ARMORCOST){
+                if (gameData.money >= gameData.ARMORCOST){
                     sound.Play(false, 0, 0.5f);
-                    gameData.score -= gameData.ARMORCOST;
+                    gameData.money -= gameData.ARMORCOST;
                     gameData.playerArmor++;
                 }
                 break;
             case "Speed":
-                if (gameData.score >= gameData.SPEEDINCREASECOST){
+                if (gameData.money >= gameData.SPEEDINCREASECOST){
                     sound.Play(false, 0, 0.5f);
-                    gameData.score -= gameData.SPEEDINCREASECOST;
+                    gameData.money -= gameData.SPEEDINCREASECOST;
                     gameData.playerSpeedIncrease += gameData.SPEEDINCREASE;
                 }
                 break;
@@ -61,10 +61,10 @@ public class BuyButton : ButtonBase{
     }
 
     void BuyWeapon(int weaponType,int price) {
-        if (gameData.gunArray.Count < gameData.maxGunNumber && gameData.score >= price) {
+        if (gameData.gunArray.Count < gameData.maxGunNumber && gameData.money >= price) {
             sound.Play(false, 0, 0.5f);
             gameData.gunArray.Add(weaponType);
-            gameData.score -= price;
+            gameData.money -= price;
         }
     }
     //add the text for when the mouse is hovering over shop items

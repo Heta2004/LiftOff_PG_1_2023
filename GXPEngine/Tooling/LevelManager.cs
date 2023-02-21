@@ -18,6 +18,7 @@ public class Level : GameObject{
     TiledLoader loader;
     string currentLevelName;
     Camera camera = new Camera(0, 0, 683, 384);
+    
     GameData gameData;
     UI ui;
     long startTime;
@@ -28,21 +29,26 @@ public class Level : GameObject{
     Pivot PlaceForUI= new Pivot();
     Sprite fogOfWar = new Sprite("fogOfWar.png",false,false);
     Sprite blackThing = new Sprite("black.png", false, false);
-    float blackThingAlphaTarget = 0.65f;
-    float fogOfWarAlphaTarget = 1f;
+    float blackThingAlphaTarget = 0.25f;
+    float fogOfWarAlphaTarget = 0.25f;
+    float fogScale = 8f;
 
     Minotaur minotaur;
+    public bool continueLevel=false;
 
     public Level(String filename, GameData pGameData)
     {
+        game.OnAfterStep += UpdateCameraLocation;
+        camera.scale= 1f;
         AddChild(imageLayer);
         AddChild(tileLayer);
         AddChild(objectLayer);  
         AddChild(lateStuffToAdd);
         AddChild(PlaceForUI);
 
-        fogOfWar.SetOrigin(fogOfWar.width / 2, fogOfWar.height / 2);
-        fogOfWar.SetScaleXY(3f,3f);
+        fogOfWar.SetOrigin(fogOfWar.width / 2, fogOfWar.height / 2);;
+        fogOfWar.SetScaleXY(8f, 8f);
+
         lateStuffToAdd.AddChild(fogOfWar);
         fogOfWar.alpha = 0;
 
@@ -50,7 +56,6 @@ public class Level : GameObject{
         lateStuffToAdd.AddChild(blackThing);
         blackThing.SetXY(-700, -700);
         blackThing.alpha = 0f;
-        blackThing.blendMode = BlendMode.PREMULTIPLIED;
 
         gameData = pGameData;
         Console.WriteLine(filename);
@@ -64,7 +69,6 @@ public class Level : GameObject{
 
 
         gameData.changedLevel = true;
-        //gameData.stage++;
         if (currentLevelName == "Level1.tmx"||currentLevelName== "MinotaurLevel.tmx")
         {
             gameData.stage++;
@@ -93,6 +97,7 @@ public class Level : GameObject{
             AddChild(camera); 
         }
         else{
+            objectLayer.AddChild(camera);
             player.SetCamera(camera);
             player.SetGameData(gameData);
             player.SetUI(ui);
@@ -102,6 +107,7 @@ public class Level : GameObject{
         {
 
             minotaur = new Minotaur(player, gameData);
+            minotaur.SetScaleXY(2);
             objectLayer.AddChild(minotaur);
             minotaur.SetXY(380, 360);
 
@@ -144,19 +150,9 @@ public class Level : GameObject{
             i.SetNumber(number++);
         }
         
-        
-        
-
-        WeaponPickUp wpu = new WeaponPickUp("Mosin_Old.png","mosin");
-        objectLayer.AddChild(wpu);
-        wpu.SetXY(700, 700);
-
-        //if (currentLevelName == "Level1.tmx")
-        //{
-        //    Minotaur minotaur = new Minotaur(player, gameData);
-        //    objectLayer.AddChild(minotaur);
-        //    minotaur.SetXY(850, 850);
-        //}
+        //WeaponPickUp wpu = new WeaponPickUp("Mosin_Old.png","mosin");
+        //objectLayer.AddChild(wpu);
+        //wpu.SetXY(700, 700);
 
         Button[] button=FindObjectsOfType<Button>();
         foreach (Button i in button) { 
@@ -168,6 +164,12 @@ public class Level : GameObject{
         {
             d.SetMinotaur(minotaur);
         }
+
+        if (currentLevelName=="Level1.tmx") {
+            FlameThrowerPickUp pickup = new FlameThrowerPickUp();
+            pickup.SetXY(700,700);
+            objectLayer.AddChild(pickup);
+        }
     }
 
     void Update() {
@@ -177,32 +179,67 @@ public class Level : GameObject{
         if (Input.GetKeyUp(Key.R)) {
             ((MyGame)game).reset = true;
             ((MyGame)game).LoadLevel("mainMenu.tmx");
-        }
-        if (currentLevelName == "Level1.tmx")
-            if (Time.time - startTime > (float)gameData.dayLength / 3 * 2&& Time.time - startTime<=gameData.dayLength) {
-                float targetChange= blackThingAlphaTarget/((float)gameData.dayLength/3000);
-                float targetChangeFog = fogOfWarAlphaTarget/((float)gameData.dayLength / 3000);
+        }   
+        if (currentLevelName == "Level1.tmx"&&gameData.gameState==gameData.DAY)
+            if (Time.time - startTime > (float)gameData.dayLength / 4 * 3) {
+                float targetChange= blackThingAlphaTarget/((float)gameData.dayLength/4000);
+                float targetChangeFog = fogOfWarAlphaTarget/((float)gameData.dayLength / 4000);
+                float targetScaleChange = 3 / (((float)gameData.dayLength) / 4000);
+
+
                 int deltaTimeClamped = Math.Min(Time.deltaTime, 40);
                 float finalChange = targetChange * deltaTimeClamped / 1000;
                 float finalChangeFog = targetChangeFog * deltaTimeClamped / 1000;
+                float finalScaleChange= targetScaleChange * deltaTimeClamped / 1000;
                 blackThing.alpha = Math.Min(blackThing.alpha+finalChange, blackThingAlphaTarget);
                 fogOfWar.alpha = Math.Min(fogOfWar.alpha + finalChangeFog, fogOfWarAlphaTarget);
+                fogScale = Math.Max(3, fogScale - finalScaleChange);
+                fogOfWar.SetScaleXY(fogScale);
+
             }
 
         if (Time.time - startTime >= gameData.dayLength)
             gameData.gameState = gameData.NIGHT;
-        if (currentLevelName== "Level1.tmx")
-            if (Time.time - startTime > (float)gameData.dayLength + (float)gameData.nightLength / 3 * 2 && Time.time - startTime <= gameData.dayLength + gameData.nightLength){
-                float targetChange = blackThingAlphaTarget/((float)gameData.dayLength / 3000);
-                float targetChangeFog= fogOfWarAlphaTarget/((float)gameData.dayLength / 3000);
+        if (currentLevelName == "Level1.tmx" && gameData.gameState == gameData.NIGHT)
+        {
+            if (Time.time - startTime >= (float)gameData.dayLength + (float)gameData.nightLength / 5*4){
+                float targetBlackness = 0.25f;
+                float targetFogness = 0.25f;
+
+                float targetChange = (1f-targetBlackness) / ((float)gameData.dayLength / 5000);
+                float targetChangeFog = (1f-targetFogness) / ((float)gameData.dayLength / 5000);
+                float targetScaleChange = 3 / (((float)gameData.dayLength) / 5000);
+
                 int deltaTimeClamped = Math.Min(Time.deltaTime, 40);
                 float finalChange = targetChange * deltaTimeClamped / 1000;
                 float finalChangeFog = targetChangeFog * deltaTimeClamped / 1000;
-                blackThing.alpha = Math.Max(blackThing.alpha - finalChange, 0f);
-                fogOfWar.alpha = Math.Max(fogOfWar.alpha - finalChangeFog, 0f);
+                float finalScaleChange = targetScaleChange * deltaTimeClamped / 1000;
+                blackThing.alpha = Math.Max(blackThing.alpha - finalChange, targetBlackness);
+                fogOfWar.alpha = Math.Max(fogOfWar.alpha - finalChangeFog, targetFogness);
+                fogScale = Math.Min(8, fogScale + finalScaleChange);
+                fogOfWar.SetScaleXY(fogScale);
             }
 
+            if (Time.time - startTime < (float)gameData.dayLength + (float)gameData.nightLength / 100*15) {
+                float targetBlackness = 0.7f;
+                float targetFogness = 1f;
 
+
+                float targetChange = (targetBlackness - blackThingAlphaTarget) / ((float)gameData.dayLength / (100f/15*1000));
+                float targetChangeFog = (targetFogness - fogOfWarAlphaTarget) / ((float)gameData.dayLength / (100f / 15 * 1000));
+                float targetScaleChange = 2 / (((float)gameData.dayLength) / (100f / 15 * 1000));
+
+
+                int deltaTimeClamped = Math.Min(Time.deltaTime, 40);
+                float finalChange = targetChange * deltaTimeClamped / 1000;
+                float finalChangeFog = targetChangeFog * deltaTimeClamped / 1000;
+                float finalScaleChange = targetScaleChange * deltaTimeClamped / 1000;
+                blackThing.alpha = Math.Min(blackThing.alpha + finalChange, targetBlackness);
+                fogOfWar.alpha = Math.Min(fogOfWar.alpha + finalChangeFog, targetFogness);
+                fogScale = Math.Max(3, fogScale - finalScaleChange);
+                fogOfWar.SetScaleXY(fogScale);
+            }
+        }
 
         if (gameData.stage != -1 && currentLevelName != "mainMenu.tmx"&&currentLevelName!= "MinotaurLevel.tmx")
             if (Time.time - startTime >= gameData.dayLength + gameData.nightLength){
@@ -218,25 +255,14 @@ public class Level : GameObject{
             }
         if (currentLevelName == "MinotaurLevel.tmx") {
             gameData.nextLevel = "Level1.tmx";
-            if (minotaur==null)
+            if (continueLevel)
                 ((MyGame)game).LoadLevel("ShopAndShit.tmx");
         }
     }
 
-    void LoadMainLevel() {
-        //SlowTile slowTile = new SlowTile("square.png", 1, 1, null);
-        //objectLayer.AddChild(slowTile);
-        //slowTile.SetXY(450, 450);
-
-        //loader.LoadObjectGroups(0);
-        //if (gameData.stage < 4)
-        //    loader.LoadObjectGroups(gameData.stage + 1);
-        //loader.LoadObjectGroups(5);
-        //loader.LoadObjectGroups(6);
-        //loader.LoadObjectGroups(7);
-
-        loader.LoadObjectGroups();
+    void UpdateCameraLocation() {
+        if (player!=null)
+            camera.SetXY(player.x,player.y);
     }
-
 
 }

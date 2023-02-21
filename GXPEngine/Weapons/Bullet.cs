@@ -36,8 +36,11 @@ public class Bullet : Sprite {
                 destroy = true;
                 break;
             }
-
-            if (col is Wall)
+            if (col is BreakableVase) { 
+                ((BreakableVase)col).StartAnimation();
+                destroy= true;
+            }
+            if (col is Wall||col is DestructibleWall)
                 destroy = true;
         }
 

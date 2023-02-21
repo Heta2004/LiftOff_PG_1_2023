@@ -25,7 +25,7 @@ public class EnemySpawnManager : AnimationSprite {
                                         };
 
 
-    int[] maxEnemyPerStage = new int[5]{10,15,20,25,30};
+    int[] maxEnemyPerStage = new int[5]{10,15,20,25,1};
     int[] delayPerStage = new int[5] { 1000, 800, 750, 700, 650 };
 
     Player player;
@@ -52,7 +52,7 @@ public class EnemySpawnManager : AnimationSprite {
             }
         }
         else {
-            if (gameData.stage <= 4){
+            if (gameData.stage > 4){
                 maxEnemies = maxEnemyPerStage[4]/2;
                 delay = delayPerStage[4]*2;
             }
@@ -71,12 +71,12 @@ public class EnemySpawnManager : AnimationSprite {
             enemyNumber++;
             var rand = new Random();
             int randomNumber = rand.Next(1,101);
-            if (randomNumber <= spawnChances[gameData.stage,0]){
+            if (randomNumber <= spawnChances[Math.Min(gameData.stage,4),0]){
                 EnemyMarker em = new EnemyMarker("standard",gameData,this,player);
                 parent.AddChild(em);
             }
             else
-                if (randomNumber <= spawnChances[gameData.stage,1]){
+                if (randomNumber <= spawnChances[Math.Min(gameData.stage, 4), 1]){
                 EnemyMarker em = new EnemyMarker("tank", gameData, this, player);
                 parent.AddChild(em);
             }

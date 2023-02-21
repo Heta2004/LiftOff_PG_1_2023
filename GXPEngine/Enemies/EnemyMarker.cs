@@ -59,9 +59,16 @@ public class EnemyMarker:Sprite{
         
     }
     void ChooseSpawnLocation(){
-        var rand = new Random();
-        x = rand.Next(380, 1000);
-        y = rand.Next(380, 1000);
+        GameObject[] overlaps = GetCollisions(false, true);
+        bool setCoords = false;
+        while (overlaps.Length > 0||!setCoords) {
+            setCoords = true;
+            var rand = new Random();
+            x = rand.Next(380, 1000);
+            y = rand.Next(380, 1000);
+            overlaps=GetCollisions(false, true);
+        }
+
     }
 
     void SpawnEnemy() {
@@ -71,6 +78,7 @@ public class EnemyMarker:Sprite{
                 enemy.SetEnemySpawnManager(esm);
                 enemy.SetGameData(gameData);
                 enemy.SetXY(x, y);
+                enemy.setSpawnXY(x, y);
                 parent.AddChild(enemy);
                 break;
             case "tank":
@@ -78,6 +86,7 @@ public class EnemyMarker:Sprite{
                 tank.SetEnemySpawnManager(esm);
                 tank.SetGameData(gameData);
                 tank.SetXY(x, y);
+                tank.setSpawnXY(x, y);
                 parent.AddChild(tank);
                 break;
             case "shooter":
@@ -85,6 +94,7 @@ public class EnemyMarker:Sprite{
                 shooter.SetEnemySpawnManager(esm);
                 shooter.SetGameData(gameData);
                 shooter.SetXY(x, y);
+                shooter.setSpawnXY(x, y);
                 parent.AddChild(shooter);
                 break;
         }

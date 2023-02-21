@@ -73,6 +73,7 @@ public class WeaponManager:AnimationSprite{
             case KNIFE:
                 gun = new InfiniteKnife(player, camera, gameData);
                 player.AddChild(gun);
+                gun.SetScaleXY(1/player.scaleX,1/player.scaleY);
                 weaponString = "";
                 break;
         }

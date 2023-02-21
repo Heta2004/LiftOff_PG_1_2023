@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using GXPEngine;
 using Tools;
 
-public class TankEnemy : Enemy
+public class TankEnemy : StandardEnemyBase
 {
     const int CHASE = 1;
     const int DASH = 2;
@@ -21,7 +21,8 @@ public class TankEnemy : Enemy
     public TankEnemy(Player pPlayer) : base("TankRun.png",4,1, pPlayer){
         EnemySetStats(85f, 25, 200);
         lastSpeed = 85f;
-        scoreOnDeath = 40;
+        scoreOnDeath = 40; 
+        RandomizeSpeed(3, 7);
     }
 
     protected override void ChasePlayer()
@@ -42,11 +43,6 @@ public class TankEnemy : Enemy
                 break;
         }
 
-        
-
-
-
-
     }
 
     void Dash() {
@@ -58,7 +54,6 @@ public class TankEnemy : Enemy
         {
             state = CHASE;
         }
-
 
     }
 

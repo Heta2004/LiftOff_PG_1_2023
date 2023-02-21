@@ -111,10 +111,14 @@ public class UI : GameObject
     }
 
     void BulletCounter(){
-        if (levelName == "Level1.tmx"){
+        if (levelName != "mainMenu.tmx" && levelName != "ShopAndShit.tmx"&&levelName!="Shop.tmx" && gameData.gunArray[gameData.selectedWeapon]!=gameData.KNIFE){
             bulletCounter.graphics.Clear(Color.Empty);
             if (gameData.selectedWeapon!=-1)
-                bulletCounter.Text(String.Format("Bullets : {0}", gameData.GunBullets[gameData.selectedWeapon]));
+                bulletCounter.Text(String.Format("Ammo : {0}", gameData.GunBullets[gameData.selectedWeapon]));
+        }
+        if (gameData.gunArray[gameData.selectedWeapon] == gameData.KNIFE) {
+            bulletCounter.graphics.Clear(Color.Empty);
+
         }
 
     }

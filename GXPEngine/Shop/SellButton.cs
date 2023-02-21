@@ -44,7 +44,7 @@ public class SellButton : ButtonBase{
     void SellWeapon(int price){
         sound.Play(false,0,0.5f);
         gameData.gunArray.RemoveAt(number);
-        gameData.score += price;
+        gameData.money += price;
         gunSprite.LateDestroy();
     }
 

@@ -14,8 +14,9 @@ public class DestructibleWall : AnimationSprite
     }
 
     void Update() { 
-        if(HitTest(minotaur))
-            Destroy();
+        if (minotaur!=null)
+            if(HitTest(minotaur))
+                Destroy();
     
     }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -39,13 +40,21 @@ public class Player : AnimationSprite {
     int particleTotalTime = 0;
 
     float angle;
-    //AnimationSprite idle=new AnimationSprite("",1,1,-1,false,false);
-    //AnimationSprite run = new AnimationSprite("",1,1,-1,false,false);
+    int flameDuration = 7500;
+    int flameStart = -100000;
+    int lastFlameShot = 0;
+    int flameDelay = 100;
+    float flameAngle;
+
+    int timeGotSpeedBoost = -1000000;
+    bool decreasedSpeed = true;
 
     public Player(string filename, int cols, int rows, TiledObject obj = null) : base(filename,cols,rows) {
         SetOrigin(width/2,height/2);
-        SetCycle(0,12);
+        //SetScaleXY(1.5f, 1.5f);
+        SetCycle(0,11);
         collider.isTrigger = true;
+        
     }
 
     void Update() {
@@ -67,29 +76,35 @@ public class Player : AnimationSprite {
                 Console.WriteLine("fix the game");
                 break;
         }
+        ShootFlames();
+        SpeedBoost();
 
     }
 
     void IdleState() {
-        SetCycle(8,12);
+        SetCycle(8,11);
+        
         if (isMoving)
             state = RUN;
     }
 
 
     void DecideMovement() {
-        SetCycle(0, 8);
+        SetCycle(0, 7);
 
-        AddStepParticle();  
+        AddStepParticle();
 
-        if (!isMoving)
+        if (!isMoving){
             state = IDLE;
+            return;
+        }
 
         int deltaTimeClamped = Math.Min(Time.deltaTime,40);
 
         float finalSpeedX = speedX * deltaTimeClamped / 1000;
         float finalSpeedY = speedY * deltaTimeClamped / 1000;
-
+        flameAngle = DirectionRelatedTools.CalculateAngle(x,y,x+ finalSpeedX * (1.0f + gameData.playerSpeedIncrease), y+ finalSpeedY * (1.0f + gameData.playerSpeedIncrease));
+        //Console.WriteLine(flameAngle);
         MoveUntilCollision(finalSpeedX*(1.0f+gameData.playerSpeedIncrease), finalSpeedY*(1.0f + gameData.playerSpeedIncrease));
 
         speedX = 0.0f;
@@ -134,7 +149,9 @@ public class Player : AnimationSprite {
     }
 
     public void TakeDamage(int damage) {
+        
         if (Time.time > cooldown + lastHitTime){
+            color = 0xFF7E63;
             time = 0;
             hp=hp-Math.Max((damage-gameData.playerArmor),0);
             lastHitTime= Time.time;
@@ -148,7 +165,7 @@ public class Player : AnimationSprite {
 
     public void SetCamera(Camera pCamera) {
         camera = pCamera;
-        AddChild(camera);
+        //AddChild(camera);
     }
 
     public void SetGameData(GameData pGameData) { 
@@ -161,13 +178,17 @@ public class Player : AnimationSprite {
         ui.AddPlayerHpBar((float)hp/gameData.playerMaxHp,hp);
     }
 
-    void Invulnerability(){
-        if (time < cooldown){
+    void Invulnerability()
+    {
+        if (time < cooldown)
+        {
             time += Time.deltaTime;
             Blink();
         }
-        else
+        else { 
             alpha = 1.0f;
+            color = 0xFFFFFF;
+        }
     }
 
     void Blink(){
@@ -175,7 +196,7 @@ public class Player : AnimationSprite {
             alpha = 1.0f;
         }
         else
-            alpha = 0.5f;
+            alpha = 0.3f;
     }
 
     void CheckCollisions() {
@@ -214,6 +235,17 @@ public class Player : AnimationSprite {
                 
             }
 
+            if (col is FlameThrowerPickUp) {
+                flameStart = Time.time;
+                col.Destroy();
+            }
+
+            if (col is SpeedPickUp) {
+                gameData.playerSpeedIncrease += gameData.SPEEDINCREASEPICKUP;
+                timeGotSpeedBoost= Time.time;
+                decreasedSpeed = false;
+                col.Destroy();
+            }
         }
 
     }
@@ -253,5 +285,23 @@ public class Player : AnimationSprite {
         return angle;
     }
 
+    void SpeedBoost() {
+        if ((Time.time - timeGotSpeedBoost > gameData.speedBoostDuration)&&!decreasedSpeed) {
+            gameData.playerSpeedIncrease -= gameData.SPEEDINCREASEPICKUP;
+            decreasedSpeed = true;
+        }
+    }
+    void ShootFlames() {
+        if (Time.time-flameStart<flameDuration) {
+            if (Time.time - lastFlameShot > flameDelay) {
+                Bullet flame = new Bullet(this, "bullet.png");
+                flame.SetXY(x + width / 2, y);
+                flame.rotation = flameAngle;
+                flame.SetDamage(5);
+                parent.parent.AddChild(flame);
+                lastFlameShot = Time.time;
+            }
+        }
+    }
 }
 

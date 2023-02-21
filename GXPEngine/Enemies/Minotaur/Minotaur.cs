@@ -42,6 +42,14 @@ public class Minotaur:Enemy{
         scoreOnDeath = 1000;
     }
 
+    protected override void Update()
+    {
+        speed = lastSpeed;
+        AnimateFixed(0.65f); 
+        ChasePlayer();
+        base.Update();
+    }
+
     protected override void ChasePlayer()
     {
         switch (state)
@@ -49,11 +57,10 @@ public class Minotaur:Enemy{
             case CHASE:
                 changeDirection = true;
                 base.ChasePlayer();
-                ChooseTargeState();
+                ChooseTargetState();
                 break;
             case DASH:
                 Dash();
-                //state = CHASE;
                 break;
             case AOESLAM:
                 AOESlam();
@@ -68,7 +75,7 @@ public class Minotaur:Enemy{
 
     }
 
-    void ChooseTargeState() {
+    void ChooseTargetState() {
         lastRotation = DirectionRelatedTools.CalculateAngle(x, y, player.x, player.y);
         float distance = DirectionRelatedTools.CalculateDistance(x, y, player.x, player.y);
         if (distance < slamRange && (Time.time - slamStartTime > slamCooldown))
@@ -139,22 +146,32 @@ public class Minotaur:Enemy{
     }
 
     void Wait() {
+        changeDirection = true;
         if (Time.time - waitStartTime > waitTime) {
             state = CHASE;
         }
     }
-    protected override void MoveEnemy(float angle){
+    protected override void MoveEnemy(float angle)
+    {
         rotation = angle;
         int deltaTimeClamped = Math.Min(Time.deltaTime, 40);
         float finalSpeed = speed * deltaTimeClamped / 1000;
         float lastX = x;
         float lastY = y;
         Move(finalSpeed, 0);
-
+        Console.WriteLine(rotation);
         GameObject[] overlaps = GetCollisions(false, true);
-        foreach (GameObject collision in overlaps) {
-            if (collision is Wall) {
-                SetXY(lastX,lastY);
+        foreach (GameObject collision in overlaps)
+        {
+            if (collision is Wall)
+            {
+                Console.WriteLine(rotation);
+                SetXY(lastX, lastY);
+                if (state != DASH) {
+                    Move(finalSpeed, 0);
+                    Move(finalSpeed, 0);
+                }
+                
                 break;
             }
         }

@@ -12,12 +12,16 @@ public class Button:ButtonBase{
     GameData gameData;
 
     public Button(string filename,int cols,int rows,TiledObject obj):base(filename,cols,rows) {
-        //levelName=obj.GetStringProperty("levelName");
+        levelName=obj.GetStringProperty("levelName");
     }
 
     protected override void OnMouseClick(){
         //((MyGame)game).LoadLevel(levelName);
-        ((MyGame)game).LoadLevel(gameData.nextLevel);
+        if (levelName != "none") {
+            ((MyGame)game).LoadLevel(levelName);
+        }
+        else
+            ((MyGame)game).LoadLevel(gameData.nextLevel);
     }
 
     public void SetGameData(GameData pGameData) {
