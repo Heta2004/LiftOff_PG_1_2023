@@ -97,7 +97,7 @@ public class Trap:AnimationSprite{
     void CheckCollisions(){
 
         foundCollision = false;
-        GameObject[] collisions = GetCollisions();
+        GameObject[] collisions = GetCollisions(true,false);
 
         foreach (GameObject col in collisions){
             if (col is Enemy){

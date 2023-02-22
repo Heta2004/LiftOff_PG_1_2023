@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using GXPEngine;
 using TiledMapParser;
 
-internal class EnemyProjectile : Bullet
+public class EnemyProjectile : Bullet
 {
     public EnemyProjectile(Player pPlayer) : base(pPlayer, "enemyProjectile.png",1,1,1)
     {

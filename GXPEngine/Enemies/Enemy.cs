@@ -16,8 +16,9 @@ public class Enemy:AnimationSprite{
     protected Player player;
     protected int hp;
     protected int maxHp;
-    protected float speed;
-    protected float lastSpeed;
+    public float speed;
+    public float lastSpeed;
+    public float speedDecreaseMultiplier=0;
     protected int damage;
     protected EnemySpawnManager esm;
     protected int scoreOnDeath;
@@ -48,7 +49,7 @@ public class Enemy:AnimationSprite{
 
     protected virtual void Update() {
 
-        DamagePlayer();
+        //DamagePlayer();
         CheckForCooldown();
     }
 
@@ -183,18 +184,16 @@ public class Enemy:AnimationSprite{
     
     }
 
-    protected void DamagePlayer() {
+    //protected void DamagePlayer() {
 
-        GameObject[] collisions=GetCollisions();
-        foreach (GameObject col in collisions){
-            if (col is Player)
-                player.TakeDamage(10);
-            if (col is SlowTile) {
-                speed = lastSpeed * gameData.speedDecreaseMutliplier;
-            }
-        }
+    //    GameObject[] collisions=GetCollisions();
+    //    foreach (GameObject col in collisions){
+    //        if (col is SlowTile) {
+    //            speed = lastSpeed * gameData.speedDecreaseMutliplier;
+    //        }
+    //    }
     
-    }
+    //}
 
     protected void EnemySetStats(float pSpeed,int pDamage,int pHp) {
         speed = pSpeed;
@@ -213,6 +212,7 @@ public class Enemy:AnimationSprite{
     public void SetGameData(GameData pGameData)
     {
         gameData = pGameData;
+        speedDecreaseMultiplier = gameData.speedDecreaseMutliplier;
         if (gameData != null && gameData.gameState == gameData.NIGHT)
         {
             Console.WriteLine("working");

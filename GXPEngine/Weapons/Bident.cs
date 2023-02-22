@@ -32,6 +32,7 @@ public class Bident : Gun{
         bullet.SetXY(bulletSpawnLocationX, bulletSpawnLocationY);
         bullet.rotation = angle;
         bullet.SetDamage(damage);
+        bullet.SetSpawnXY(bulletSpawnLocationX, bulletSpawnLocationY);
         parent.parent.AddChild(bullet);
 
         Tween tween = new Tween(TweenProperty.x, TweenProperty.y, tweenTime, tweenDelta, 1);

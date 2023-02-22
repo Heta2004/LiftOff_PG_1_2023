@@ -64,8 +64,8 @@ public class EnemyMarker:Sprite{
         while (overlaps.Length > 0||!setCoords) {
             setCoords = true;
             var rand = new Random();
-            x = rand.Next(380, 1000);
-            y = rand.Next(380, 1000);
+            x = rand.Next(gameData.spawnXLeft, gameData.spawnXRight+1);
+            y = rand.Next(gameData.spawnYLeft, gameData.spawnYRight+1);
             overlaps=GetCollisions(false, true);
         }
 

@@ -51,7 +51,6 @@ public class Player : AnimationSprite {
 
     public Player(string filename, int cols, int rows, TiledObject obj = null) : base(filename,cols,rows) {
         SetOrigin(width/2,height/2);
-        //SetScaleXY(1.5f, 1.5f);
         SetCycle(0,11);
         collider.isTrigger = true;
         
@@ -200,11 +199,20 @@ public class Player : AnimationSprite {
     }
 
     void CheckCollisions() {
-        GameObject[] collisions = GetCollisions();
+        GameObject[] collisions = GetCollisions(true,false);
         foreach (GameObject col in collisions){
 
             if (col is SlowTile) {
                 speedChange = lastSpeedChange*gameData.speedDecreaseMutliplier;
+            }
+
+            if (col is Enemy) {
+                if (col is StandardEnemy || col is Shooter)
+                    TakeDamage(gameData.contactDamageStandard);
+                if (col is TankEnemy)
+                    TakeDamage(gameData.contactDamageTank);
+                if (col is Minotaur)
+                    TakeDamage(gameData.contactDamageMinotaur);
             }
 
             if (col is HpDrop && hp < gameData.playerMaxHp){

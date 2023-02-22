@@ -52,8 +52,8 @@ public class GameData : GameObject {
     public int[] stageLength = new int[5] { 30000, 40000, 45000, 50000, 60000 };
     public long levelStartTime;
 
-    public int dayLength = 5000;//45000
-    public int nightLength = 5000;//45000
+    public int dayLength = 45000;//45000
+    public int nightLength = 45000;//45000
 
     public int DAY = 1;
     public int NIGHT = 2;
@@ -74,15 +74,20 @@ public class GameData : GameObject {
 
     public string nextLevel="Level1.tmx";
 
-    public int minotaurSlamDamage = 50;
-    public int minotaurSpikeDamage = 40;
-
     public int speedBoostDuration = 10000;
     public int money;
 
+    public int contactDamageStandard = 20;
+    public int contactDamageTank = 30;
+    public int contactDamageMinotaur = 50;
+    public int minotaurSlamDamage = 50;
+    public int minotaurSpikeDamage = 40;
+
     public string lastLevel;
-    public int spawnX;
-    public int spawnY;
+    public int spawnXLeft;
+    public int spawnXRight;
+    public int spawnYLeft;
+    public int spawnYRight;
 
     public GameData(){
         Reset();
@@ -103,7 +108,7 @@ public class GameData : GameObject {
         gunArray = new List<int>(guns);
         GunBullets= new List<int>(bullets);
         gunNumber = 0;
-        stage = 3;
+        stage = 0;
         score = 0;
         changedLevel = false;
     }

@@ -69,7 +69,7 @@ public class Level : GameObject{
 
 
         gameData.changedLevel = true;
-        if (currentLevelName == "Level1.tmx"||currentLevelName== "MinotaurLevel.tmx")
+        if (currentLevelName!= "mainMenu.tmx"&&currentLevelName!= "Shop.tmx"&&currentLevelName!= "ShopAndShit.tmx")
         {
             gameData.stage++;
         }
@@ -173,7 +173,8 @@ public class Level : GameObject{
     }
 
     void Update() {
-        Console.WriteLine( "stage: {0}",gameData.stage);
+        //Console.WriteLine( "stage: {0}",gameData.stage);
+        Console.WriteLine();
         if (player != null)
             fogOfWar.SetXY(player.x,player.y);
         
@@ -241,6 +242,9 @@ public class Level : GameObject{
                 fogOfWar.SetScaleXY(fogScale);
             }
         }
+        if (currentLevelName== "mainMenu.tmx") {
+            ChooseRandomLevel();
+        }
 
         if (gameData.stage != -1 && currentLevelName != "mainMenu.tmx"&&currentLevelName!= "MinotaurLevel.tmx")
             if (Time.time - startTime >= gameData.dayLength + gameData.nightLength){
@@ -250,12 +254,14 @@ public class Level : GameObject{
                     gameData.nextLevel="MinotaurLevel.tmx";
                 }
                 else {
-                    gameData.nextLevel = "Level1.tmx";
+                    //gameData.nextLevel = "Level1.tmx";
+                    ChooseRandomLevel();
                 }
                 ((MyGame)game).LoadLevel("ShopAndShit.tmx");
             }
         if (currentLevelName == "MinotaurLevel.tmx") {
-            gameData.nextLevel = "Level1.tmx";
+            //gameData.nextLevel = "Level1.tmx";
+            ChooseRandomLevel();
             if (continueLevel)
                 ((MyGame)game).LoadLevel("ShopAndShit.tmx");
         }
@@ -270,13 +276,19 @@ public class Level : GameObject{
     void ChooseRandomLevel() {
         if (gameData.stage <= 4) {
             switch (gameData.stage) {
+                case 0:
+                    gameData.nextLevel = "Level1.tmx";
+                    gameData.spawnXLeft =256;
+                    gameData.spawnYLeft = 288;
+                    gameData.spawnXRight = 960;
+                    gameData.spawnYRight = 992;
+                    break;
                 case 1:
                     break;
                 case 2:
                     break;
                 case 3:
-                    break;
-                case 4:
+
                     break;
             }
         }
