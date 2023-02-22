@@ -268,12 +268,12 @@ public class Enemy:AnimationSprite{
             int randomNumber2=rand.Next(1,5);
             switch (randomNumber2) {
                 case 1:
-                    pickup = new WeaponPickUp("ak.png","ak");
+                    pickup = new WeaponPickUp("Bident.png","bident");
                     parent.AddChild(pickup);
                     pickup.SetXY(x, y);
                     break;
                 case 2:
-                    pickup = new WeaponPickUp("Mosin_Old.png", "mosin");
+                    pickup = new WeaponPickUp("bow.png", "bow");
                     parent.AddChild(pickup);
                     pickup.SetXY(x, y);
                     break;
@@ -283,7 +283,7 @@ public class Enemy:AnimationSprite{
                     pickup.SetXY(x, y);
                     break;
                 case 4:
-                    pickup = new WeaponPickUp("ak.png", "sniper");
+                    pickup = new WeaponPickUp("spear.png", "spear");
                     parent.AddChild(pickup);
                     pickup.SetXY(x, y);
                     break;

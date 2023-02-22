@@ -44,6 +44,7 @@
     <Compile Include="Enemies\Minotaur\AoeSpikes.cs" />
     <Compile Include="Enemies\Minotaur\Minotaur.cs" />
     <Compile Include="Enemies\StandardEnemyBase.cs" />
+    <Compile Include="MouseAimingObject.cs" />
     <Compile Include="PowerUps\FlameThrowerPickUp.cs" />
     <Compile Include="PowerUps\SpeedPickUp.cs" />
     <Compile Include="Tiles\BreakableVase.cs" />

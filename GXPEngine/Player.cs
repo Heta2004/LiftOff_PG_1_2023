@@ -103,7 +103,6 @@ public class Player : AnimationSprite {
         float finalSpeedX = speedX * deltaTimeClamped / 1000;
         float finalSpeedY = speedY * deltaTimeClamped / 1000;
         flameAngle = DirectionRelatedTools.CalculateAngle(x,y,x+ finalSpeedX * (1.0f + gameData.playerSpeedIncrease), y+ finalSpeedY * (1.0f + gameData.playerSpeedIncrease));
-        //Console.WriteLine(flameAngle);
         MoveUntilCollision(finalSpeedX*(1.0f+gameData.playerSpeedIncrease), finalSpeedY*(1.0f + gameData.playerSpeedIncrease));
 
         speedX = 0.0f;
@@ -224,16 +223,16 @@ public class Player : AnimationSprite {
 
             if (col is WeaponPickUp){
                 switch (((WeaponPickUp)col).CheckWeaponType()){
-                    case "ak":
+                    case "bident":
                         AddWeaponAndAmmo(gameData.BIDENT,gameData.MAXBIDENTBULLETS,col);
                         break;
-                    case "mosin":
+                    case "bow":
                         AddWeaponAndAmmo(gameData.BOW,gameData.MAXBOWBULLETS,col);
                         break;
                     case "rocketLauncher":
                         AddWeaponAndAmmo(gameData.ROCKETLAUNCHER, gameData.MAXROCKETLAUNCHERBULLETS, col);
                         break;
-                    case "sniper":
+                    case "spear":
                         AddWeaponAndAmmo(gameData.SPEAR,gameData.MAXSPEARBULLETS, col);
                         break;
                     default:

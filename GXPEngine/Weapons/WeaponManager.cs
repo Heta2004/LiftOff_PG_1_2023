@@ -14,7 +14,7 @@ public class WeaponManager:AnimationSprite{
     Camera camera;
     GameData gameData;
 
-    const int AK = 1;
+    const int BIDENT = 1;
     const int BOW = 2;
     const int ROCKETLAUNCHER = 3;
     const int SPEAR = 4;
@@ -50,16 +50,16 @@ public class WeaponManager:AnimationSprite{
     void SpawnWeapon(int weaponType) {
 
         switch (weaponType) {
-            case AK:
+            case BIDENT:
                 gun = new Bident(player, camera, gameData);
                 player.AddChild(gun);
                 gun.SetXY(20,0);
-                weaponString = "ak.png";
+                weaponString = "Bident.png";
                 break;
             case BOW:
                 gun = new Bow(player, camera, gameData);
                 player.AddChild(gun);
-                weaponString = "Mosin_Old.png";
+                weaponString = "bow.png";
                 break;
             case ROCKETLAUNCHER:
                 gun = new RocketLauncher(player, camera, gameData);
@@ -69,7 +69,7 @@ public class WeaponManager:AnimationSprite{
             case SPEAR:
                 gun = new Spear(player,camera,gameData);
                 player.AddChild(gun);
-                weaponString = "ak.png";
+                weaponString = "spear.png";
                 break;
             case KNIFE:
                 gun = new InfiniteKnife(player, camera, gameData);
