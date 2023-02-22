@@ -34,9 +34,6 @@ public class Enemy:AnimationSprite{
 
     protected bool changeDirection = true;
     protected float angle;
-    float backupPath;
-
-
 
     EasyDraw hpBar=new EasyDraw(25,25,false);
 
@@ -77,7 +74,6 @@ public class Enemy:AnimationSprite{
         //float lastX = x;
         //float lastY = y;
         float oldRotation = rotation;
-        int lastTry = -1;
         //MoveUntilCollision(finalSpeed,0);
         GXPEngine.Core.Vector2 worldDirection = TransformDirection(finalSpeed, 0);
         GXPEngine.Core.Collision col = MoveUntilCollision(worldDirection.x, worldDirection.y);

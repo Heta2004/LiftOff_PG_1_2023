@@ -49,6 +49,7 @@ public class TankEnemy : StandardEnemyBase
         //speed = lastSpeed * speedMultiplier;
         changeDirection = false;
         speed += lastSpeed * (speedMultiplier/2f);
+        angle= DirectionRelatedTools.CalculateAngle(x, y, player.x, player.y);
         MoveEnemy(lastRotation);
         if (Time.time-dashStartTime> dashDuration)
         {

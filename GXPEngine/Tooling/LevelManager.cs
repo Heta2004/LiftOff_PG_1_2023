@@ -173,6 +173,7 @@ public class Level : GameObject{
     }
 
     void Update() {
+        Console.WriteLine( "stage: {0}",gameData.stage);
         if (player != null)
             fogOfWar.SetXY(player.x,player.y);
         
@@ -263,6 +264,23 @@ public class Level : GameObject{
     void UpdateCameraLocation() {
         if (player!=null)
             camera.SetXY(player.x,player.y);
+    }
+
+
+    void ChooseRandomLevel() {
+        if (gameData.stage <= 4) {
+            switch (gameData.stage) {
+                case 1:
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    break;
+            }
+        }
+    
     }
 
 }

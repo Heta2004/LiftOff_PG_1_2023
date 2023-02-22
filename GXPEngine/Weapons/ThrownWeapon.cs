@@ -12,7 +12,7 @@ public class ThrownWeapon : Bullet {
     float rotationChangePerSecond = 1000;
 
     bool setOldRotation = false;
-    public ThrownWeapon(Player pPlayer, string filename) : base(pPlayer, filename) {
+    public ThrownWeapon(Player pPlayer, string filename) : base(pPlayer, filename,1,1,1) {
         speed = 400;
         damage = 50;
     }

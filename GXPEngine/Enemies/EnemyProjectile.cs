@@ -9,7 +9,7 @@ using TiledMapParser;
 
 internal class EnemyProjectile : Bullet
 {
-    public EnemyProjectile(Player pPlayer) : base(pPlayer, "enemyProjectile.png")
+    public EnemyProjectile(Player pPlayer) : base(pPlayer, "enemyProjectile.png",1,1,1)
     {
         speed = 600f;
         damage = 10;

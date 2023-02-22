@@ -8,7 +8,7 @@ using GXPEngine;
 
 public class Rocket:Bullet{
 
-    public Rocket(Player player) : base(player,"Rocket.png") {
+    public Rocket(Player player) : base(player,"Rocket.png",1,1,1) {
         speed = 700f;
     }
     protected override void Update()

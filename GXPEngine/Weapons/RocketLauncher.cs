@@ -11,7 +11,7 @@ using TiledMapParser;
 public class RocketLauncher : Gun
 {
 
-    public RocketLauncher(Player pPlayer, Camera pCamera, GameData pGameData) : base("RocketLauncher.png", pPlayer, pCamera, pGameData)
+    public RocketLauncher(Player pPlayer, Camera pCamera, GameData pGameData) : base("RocketLauncher.png", pPlayer, pCamera, pGameData,1,1,1)
     {
         damage = 50;
         shootCooldown = 1000;

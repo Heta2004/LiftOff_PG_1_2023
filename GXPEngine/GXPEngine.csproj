@@ -50,7 +50,8 @@
     <Compile Include="Tiles\DestructibleWall.cs" />
     <Compile Include="Tiles\Teleporter.cs" />
     <Compile Include="Tiles\TeleporterManager.cs" />
-    <Compile Include="Weapons\AK.cs" />
+    <Compile Include="Weapons\Bident.cs" />
+    <Compile Include="Weapons\BidentFire.cs" />
     <Compile Include="Weapons\Bullet.cs" />
     <Compile Include="Shop\Button.cs" />
     <Compile Include="Shop\ButtonBase.cs" />
@@ -70,7 +71,7 @@
     <Compile Include="HpDrop.cs" />
     <Compile Include="Tooling\LevelManager.cs" />
     <Compile Include="Weapons\InfiniteKnife.cs" />
-    <Compile Include="Weapons\Mosin.cs" />
+    <Compile Include="Weapons\Bow.cs" />
     <Compile Include="MyGame.cs" />
     <Compile Include="GXPEngine\Core\Canvas.cs" />
     <Compile Include="GXPEngine\Game.cs" />
@@ -121,7 +122,7 @@
     <Compile Include="Tiles\SlowTile.cs" />
     <Compile Include="Enemies\StandardEnemies\StandardEnemy.cs" />
     <Compile Include="Enemies\StandardEnemies\TankEnemy.cs" />
-    <Compile Include="Weapons\Sniper.cs" />
+    <Compile Include="Weapons\Spear.cs" />
     <Compile Include="Weapons\ThrownWeapon.cs" />
     <Compile Include="Enemies\TrainingDummy.cs" />
     <Compile Include="Tiles\Trap.cs" />

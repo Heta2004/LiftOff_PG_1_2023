@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 using GXPEngine;
-public class Gun : Sprite{
+public class Gun : AnimationSprite{
     protected Player player;
     protected Camera camera;
     protected GameData gameData;
@@ -15,7 +16,8 @@ public class Gun : Sprite{
     protected int lastShootTime = 0;
     protected int shootCooldown = 0;
     protected int damage = 0;
-    protected Pivot weaponTip = new Pivot();
+    //protected Pivot weaponTip = new Pivot();
+    protected Sprite weaponTip = new Sprite("dot.png",false,false);
     protected float bulletSpawnLocationX;
     protected float bulletSpawnLocationY;
 
@@ -25,8 +27,12 @@ public class Gun : Sprite{
     protected string targetSound;
     protected float targetVolume;
     protected int slot;
+    protected string bulletSprite="empty";
+    protected float weaponX;
+    protected float weaponY;
+    protected bool changeLocation = false;
     
-    public Gun(String filename, Player pPlayer, Camera pCamera, GameData pGameData) : base(filename, false, false){
+    public Gun(String filename, Player pPlayer, Camera pCamera, GameData pGameData,int cols,int rows,int frames) : base(filename, cols,rows,frames,false,false){
         this.AddChild(weaponTip);
         SetOrigin(width / 2, height / 2);
 
@@ -38,42 +44,55 @@ public class Gun : Sprite{
             gameData.gunNumber = 0;
         gameData.gunNumber++;
         gunNumber = gameData.gunNumber;
-        weaponTip.x = x;
+        weaponTip.x = (width/2);
+        //weaponTip.x = x;
 
 
     }
-    protected void Update() {
+    protected virtual void Update() {
         
 
         var result = camera.ScreenPointToGlobal(Input.mouseX, Input.mouseY);
-        x = 0;
-        rotation = 0;
+        //if (changeLocation)
+        //    x = 0;
+        //rotation = 0;
         var result2 = TransformPoint(weaponTip.x, weaponTip.y);
         //var result2 = TransformPoint(player.x, player.y);
         //Mirror(false, true);
-        
+
+        if (changeLocation)
+            x = 0;
+        rotation = 0;
+
+        var result3 = TransformPoint(weaponTip.x, weaponTip.y);
+
         bulletSpawnLocationX = result2.x;
         bulletSpawnLocationY = result2.y;
-        angle = Tools.DirectionRelatedTools.CalculateAngle(result2.x, result2.y, result.x, result.y);
+        angle = Tools.DirectionRelatedTools.CalculateAngle(result3.x, result3.y, result.x, result.y);
         rotation = angle;
-        RotateAndChangeLocation();
+        RotateAndChangeLocation(weaponX, weaponY);
         Shoot();
 
     }
 
-    void RotateAndChangeLocation() {
-        if (angle >= 90 && angle <= 270){
-            Mirror(false, true);
-            x = -20;
-        }
-        else{
-            Mirror(false, false);
-            x = 20;
+    protected void RotateAndChangeLocation(float weaponX, float weaponY)
+    {
+        if (changeLocation) { 
+            if (angle >= 90 && angle <= 270)
+            {
+                //Mirror(false, true);
+                SetXY(-weaponX, weaponY);
+            }
+            else
+            {
+                //Mirror(false, false);
+                SetXY(weaponX, weaponY);
+            }
         }
     }
 
 
-    void Shoot() {
+    protected virtual void Shoot() {
         if (Input.GetMouseButton(0) && Time.time > lastShootTime + shootCooldown&& gameData.GunBullets[slot] > 0) {
             lastShootTime = Time.time;
             CreateBullet();
@@ -82,7 +101,12 @@ public class Gun : Sprite{
 
     protected virtual void CreateBullet() {
         gameData.GunBullets[slot]--;
-        Bullet bullet = new Bullet(player, "bullet.png");
+        Bullet bullet;
+        if (bulletSprite != "empty")
+            bullet = new Bullet(player, bulletSprite, 1, 1, 1);
+        else
+            bullet = new Bullet(player, "bullet.png", 1, 1, 1);
+        bullet.SetScaleXY(1.25f);
         bullet.SetXY(bulletSpawnLocationX,bulletSpawnLocationY);
         bullet.rotation = angle;
         bullet.SetDamage(damage);
@@ -91,10 +115,10 @@ public class Gun : Sprite{
         Tween tween = new Tween(TweenProperty.x, TweenProperty.y, tweenTime, tweenDelta,1);
         camera.AddChild(tween);
 
-        ParticleGunSmoke smoke = new ParticleGunSmoke();
-        weaponTip.AddChild(smoke);
-        smoke.SetXY(width / 2, -height / 9);
-        smoke.rotation = 0;
+        //ParticleGunSmoke smoke = new ParticleGunSmoke();
+        //weaponTip.AddChild(smoke);
+        //smoke.SetXY(width / 2, -height / 9);
+        //smoke.rotation = 0;
         SoundChannel shotSoundChannel = shotSound.Play();
         shotSoundChannel.Volume = targetVolume;
 

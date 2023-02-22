@@ -14,19 +14,25 @@ public class EnemySpawnManager : AnimationSprite {
 
     int lastSpawnTime = 0;
     int enemyNumber = 0;
-    int[,] spawnChances = new int[5, 3] {
+    int[,] spawnChances = new int[10, 3] {
 
                                         {100,0,0},
                                         {90,100,0},
                                         {70,90,100},
                                         {65,85,100},
+                                        {60,80,100},
+                                        {60,80,100},
+                                        {60,80,100},
+                                        {60,80,100},
+                                        {60,80,100},
                                         {60,80,100}
-    
+
                                         };
 
 
-    int[] maxEnemyPerStage = new int[5]{10,15,20,25,1};
-    int[] delayPerStage = new int[5] { 1000, 800, 750, 700, 650 };
+    int maxEnemyPerStage = 1;
+    int delayPerStage = 10000;
+    int selectedSpawnPatern;
 
     Player player;
     
@@ -35,48 +41,23 @@ public class EnemySpawnManager : AnimationSprite {
     }
 
     void Update() {
+        Console.WriteLine(selectedSpawnPatern);
         SpawnEnemy();
     }
 
     void SpawnEnemy() {
-        int maxEnemies,delay;
 
-        if (gameData.gameState == gameData.NIGHT) {
-            if (gameData.stage > 4){
-                maxEnemies = maxEnemyPerStage[4];
-                delay = delayPerStage[4];
-            }
-            else {
-                maxEnemies = maxEnemyPerStage[gameData.stage];
-                delay = delayPerStage[gameData.stage];
-            }
-        }
-        else {
-            if (gameData.stage > 4){
-                maxEnemies = maxEnemyPerStage[4]/2;
-                delay = delayPerStage[4]*2;
-            }
-            else
-            {
-                maxEnemies = maxEnemyPerStage[gameData.stage]/2;
-                delay = delayPerStage[gameData.stage]*2;
-            }
-
-
-        }
- 
-            maxEnemies=maxEnemyPerStage[4];
-        if (Time.time > delay +lastSpawnTime && enemyNumber < maxEnemies &&player!=null) {
+        if (Time.time > delayPerStage +lastSpawnTime && enemyNumber < maxEnemyPerStage &&player!=null) {
             lastSpawnTime= Time.time;
             enemyNumber++;
             var rand = new Random();
             int randomNumber = rand.Next(1,101);
-            if (randomNumber <= spawnChances[Math.Min(gameData.stage,4),0]){
+            if (randomNumber <= spawnChances[selectedSpawnPatern, 0]){
                 EnemyMarker em = new EnemyMarker("standard",gameData,this,player);
                 parent.AddChild(em);
             }
             else
-                if (randomNumber <= spawnChances[Math.Min(gameData.stage, 4), 1]){
+                if (randomNumber <= spawnChances[selectedSpawnPatern, 1]){
                 EnemyMarker em = new EnemyMarker("tank", gameData, this, player);
                 parent.AddChild(em);
             }
@@ -101,6 +82,16 @@ public class EnemySpawnManager : AnimationSprite {
     public void SetGameData(GameData pGameData)
     {
         gameData = pGameData;
+        if (gameData.stage <= 4){
+            selectedSpawnPatern = gameData.stage-1;
+        }
+        else{
+            var rand = new Random();
+            selectedSpawnPatern = rand.Next(4, 10);
+        }
+        maxEnemyPerStage=Math.Max((gameData.stage+1)*5,75);//maybe 3
+        delayPerStage = Math.Max(2000-gameData.stage*100,600);
+
     }
 
 }

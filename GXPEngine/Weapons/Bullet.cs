@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 using GXPEngine;
 
-public class Bullet : Sprite {
+public class Bullet : AnimationSprite {
     protected float speed = 900.0f;
     protected int damage;
     protected Player player;
-    public Bullet(Player pPlayer,string filename) : base(filename) {
+    public Bullet(Player pPlayer,string filename,int cols,int rows,int frames) : base(filename,cols,rows,frames) {
         player = pPlayer;
         SetOrigin(width / 2, height / 2);
         collider.isTrigger = true;

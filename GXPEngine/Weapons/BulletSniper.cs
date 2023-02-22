@@ -10,7 +10,8 @@ public class BulletSniper:Bullet{
     int collisionsLeft = 3;
     GameObject lastCollision=null;
 
-    public BulletSniper(Player player) :base(player,"bullet.png"){
+    public BulletSniper(Player player) :base(player, "spear.png",1,1,1)
+    {
         speed = 700f;
 
     }

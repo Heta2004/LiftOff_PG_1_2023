@@ -7,18 +7,22 @@ using System.Threading.Tasks;
 using GXPEngine;
 
 public class GameData : GameObject {
-    public int AK = 1;
-    public int MOSIN = 2;
+    public int BIDENT = 1;
+    public int BOW = 2;
     public int ROCKETLAUNCHER = 3;
-    public int SNIPER = 4;
+    public int SPEAR = 4;
     public int KNIFE = 5;
+
+
     public int AKCOST = 65;
-    public int MOSINCOST = 35;
+    public int BOWCOST = 35;
     public int ROCKETLAUNCHERCOST = 150;
-    public int MAXAKBULLETS = 90;
-    public int MAXMOSINBULLETS = 30;
+
+
+    public int MAXBIDENTBULLETS = 300;
+    public int MAXBOWBULLETS = 30;
     public int MAXROCKETLAUNCHERBULLETS = 10;
-    public int MAXSNIPERBULLETS = 10;
+    public int MAXSPEARBULLETS = 10;
     public int MAXKNIFEBULLES = 2147483647;
 
     public int MAXHPCOST = 30;
@@ -48,8 +52,8 @@ public class GameData : GameObject {
     public int[] stageLength = new int[5] { 30000, 40000, 45000, 50000, 60000 };
     public long levelStartTime;
 
-    public int dayLength = 45000;//45000
-    public int nightLength = 45000;//45000
+    public int dayLength = 5000;//45000
+    public int nightLength = 5000;//45000
 
     public int DAY = 1;
     public int NIGHT = 2;
@@ -76,6 +80,10 @@ public class GameData : GameObject {
     public int speedBoostDuration = 10000;
     public int money;
 
+    public string lastLevel;
+    public int spawnX;
+    public int spawnY;
+
     public GameData(){
         Reset();
     }
@@ -90,8 +98,8 @@ public class GameData : GameObject {
         playerMaxHp = 500;
         playerArmor = 0;
         playerSpeedIncrease = 0;
-        guns = new int[] { 5,1,3,4 };
-        bullets=new int[] { MAXKNIFEBULLES,MAXAKBULLETS,MAXROCKETLAUNCHERBULLETS,MAXSNIPERBULLETS };
+        guns = new int[] { 5,1,4,2 };
+        bullets=new int[] { MAXKNIFEBULLES,MAXBIDENTBULLETS,MAXSPEARBULLETS,MAXBOWBULLETS };
         gunArray = new List<int>(guns);
         GunBullets= new List<int>(bullets);
         gunNumber = 0;

@@ -63,7 +63,7 @@ public class Player : AnimationSprite {
         CheckCollisions();
         CheckKeyPresses();
         Invulnerability();
-        AnimateFixed(0.8f);
+        
         CheckKeyPresses();
         switch (state) {
             case IDLE:
@@ -83,7 +83,7 @@ public class Player : AnimationSprite {
 
     void IdleState() {
         SetCycle(8,11);
-        
+        AnimateFixed(0.5f);
         if (isMoving)
             state = RUN;
     }
@@ -91,7 +91,7 @@ public class Player : AnimationSprite {
 
     void DecideMovement() {
         SetCycle(0, 7);
-
+        AnimateFixed(0.8f);
         AddStepParticle();
 
         if (!isMoving){
@@ -217,16 +217,16 @@ public class Player : AnimationSprite {
             if (col is WeaponPickUp){
                 switch (((WeaponPickUp)col).CheckWeaponType()){
                     case "ak":
-                        AddWeaponAndAmmo(gameData.AK,gameData.MAXAKBULLETS,col);
+                        AddWeaponAndAmmo(gameData.BIDENT,gameData.MAXBIDENTBULLETS,col);
                         break;
                     case "mosin":
-                        AddWeaponAndAmmo(gameData.MOSIN,gameData.MAXMOSINBULLETS,col);
+                        AddWeaponAndAmmo(gameData.BOW,gameData.MAXBOWBULLETS,col);
                         break;
                     case "rocketLauncher":
                         AddWeaponAndAmmo(gameData.ROCKETLAUNCHER, gameData.MAXROCKETLAUNCHERBULLETS, col);
                         break;
                     case "sniper":
-                        AddWeaponAndAmmo(gameData.SNIPER,gameData.MAXSNIPERBULLETS, col);
+                        AddWeaponAndAmmo(gameData.SPEAR,gameData.MAXSPEARBULLETS, col);
                         break;
                     default:
                         Console.WriteLine("fix the game");
@@ -294,11 +294,11 @@ public class Player : AnimationSprite {
     void ShootFlames() {
         if (Time.time-flameStart<flameDuration) {
             if (Time.time - lastFlameShot > flameDelay) {
-                Bullet flame = new Bullet(this, "bullet.png");
+                Bullet flame = new Bullet(this, "bullet.png",1,1,1);
                 flame.SetXY(x + width / 2, y);
                 flame.rotation = flameAngle;
                 flame.SetDamage(5);
-                parent.parent.AddChild(flame);
+                parent.AddChild(flame);
                 lastFlameShot = Time.time;
             }
         }

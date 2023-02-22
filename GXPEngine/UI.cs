@@ -126,7 +126,7 @@ public class UI : GameObject
     void AddStage() {
         if (!addedStage&& levelName == "Level1.tmx") { 
             stage.graphics.Clear(Color.Empty);
-            stage.Text(String.Format("Day : {0}", gameData.stage + 1));
+            stage.Text(String.Format("Day : {0}", gameData.stage));
             addedStage = true;
         }
     }

@@ -33,7 +33,6 @@ public class StandardEnemyBase : Enemy {
     }
 
     protected override void Update(){
-        Console.WriteLine(pathfindingState);
         speed = lastSpeed;
         AnimateFixed(0.65f);
         if (gameData != null)

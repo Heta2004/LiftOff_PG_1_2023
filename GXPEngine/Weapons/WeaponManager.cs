@@ -15,12 +15,13 @@ public class WeaponManager:AnimationSprite{
     GameData gameData;
 
     const int AK = 1;
-    const int MOSIN = 2;
+    const int BOW = 2;
     const int ROCKETLAUNCHER = 3;
-    const int SNIPER = 4;
+    const int SPEAR = 4;
     const int KNIFE = 5;
 
     Gun gun;
+    Gun secondGun;
     string weaponString;
 
     //int gunX = 10;
@@ -50,13 +51,13 @@ public class WeaponManager:AnimationSprite{
 
         switch (weaponType) {
             case AK:
-                gun = new AK(player, camera, gameData);
+                gun = new Bident(player, camera, gameData);
                 player.AddChild(gun);
                 gun.SetXY(20,0);
                 weaponString = "ak.png";
                 break;
-            case MOSIN:
-                gun = new Mosin(player, camera, gameData);
+            case BOW:
+                gun = new Bow(player, camera, gameData);
                 player.AddChild(gun);
                 weaponString = "Mosin_Old.png";
                 break;
@@ -65,15 +66,20 @@ public class WeaponManager:AnimationSprite{
                 player.AddChild(gun);
                 weaponString = "RocketLauncher.png";
                 break;
-            case SNIPER:
-                gun = new Sniper(player,camera,gameData);
+            case SPEAR:
+                gun = new Spear(player,camera,gameData);
                 player.AddChild(gun);
                 weaponString = "ak.png";
                 break;
             case KNIFE:
                 gun = new InfiniteKnife(player, camera, gameData);
+                secondGun = new InfiniteKnife(player, camera, gameData);
                 player.AddChild(gun);
+                player.AddChild(secondGun);
                 gun.SetScaleXY(1/player.scaleX,1/player.scaleY);
+                secondGun.SetScaleXY(1 / player.scaleX, 1 / player.scaleY);
+                gun.SetXY(-25,-25);
+                secondGun.SetXY(25,-25);
                 weaponString = "";
                 break;
         }
@@ -142,6 +148,7 @@ public class WeaponManager:AnimationSprite{
         }
         if (change) {
             gun.Destroy();
+            secondGun.Destroy();
             if (gameData.gunArray.Count>0)
                 SpawnWeapon(gameData.gunArray[gameData.selectedWeapon]);
         }

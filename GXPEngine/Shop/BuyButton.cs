@@ -20,10 +20,10 @@ public class BuyButton : ButtonBase{
 
         switch (type){
             case "Mosin":
-                BuyWeapon(gameData.MOSIN, gameData.MOSINCOST);
+                BuyWeapon(gameData.BOW, gameData.BOWCOST);
                 break;
             case "Ak":
-                BuyWeapon(gameData.AK, gameData.AKCOST);
+                BuyWeapon(gameData.BIDENT, gameData.AKCOST);
                 break;
             case "RocketLauncher":
                 BuyWeapon(gameData.ROCKETLAUNCHER, gameData.ROCKETLAUNCHERCOST);
@@ -71,7 +71,7 @@ public class BuyButton : ButtonBase{
     void CheckStuffForDisplay() {
         switch (type){
             case "Mosin":
-                SetText(gameData.MOSINCOST,25,2);
+                SetText(gameData.BOWCOST,25,2);
                 break;
             case "Ak":
                 SetText(gameData.AKCOST,15,5);
