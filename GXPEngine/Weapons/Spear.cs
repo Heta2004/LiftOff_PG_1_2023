@@ -10,9 +10,9 @@ using GXPEngine.Managers;
 public class Spear : Gun{
 
     public Spear(Player pPlayer, Camera pCamera, GameData pGameData) : base("spear.png", pPlayer, pCamera, pGameData,1,1,1){
-        damage = 75;
+        damage = gameData.SPEARDAMAGE;
 
-        shootCooldown = 750;
+        shootCooldown = gameData.SPEARSPEED;
         tweenTime = 75;
         tweenDelta = 9;
         RandomizeShootTime(20, 40);

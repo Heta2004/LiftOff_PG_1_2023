@@ -18,7 +18,7 @@ public class ButtonBase:AnimationSprite{
     }
 
     protected virtual void Update() {
-
+        AnimateFixed(0.1f);
         parent.RemoveChild(popUp);
         if (HitTestPoint(Input.mouseX, Input.mouseY))
             OnMouseHover();

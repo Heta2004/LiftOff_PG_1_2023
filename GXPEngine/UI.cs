@@ -102,7 +102,7 @@ public class UI : GameObject
     }
 
     void RotateClock(){
-        if (levelName == "Level1.tmx") { 
+        if (levelName != "mainMenu.tmx" && levelName != "MinotaurLevel.tmx" && levelName != "ShopAndShit.tmx" && levelName != "Shop.tmx") { 
             float targetChange = 360 / ((float)(gameData.dayLength + gameData.nightLength) / 1000);
             int deltaTimeClamped = Math.Min(Time.deltaTime, 40);
             float finalChange = targetChange * deltaTimeClamped / 1000;
@@ -124,7 +124,7 @@ public class UI : GameObject
     }
 
     void AddStage() {
-        if (!addedStage&& levelName == "Level1.tmx") { 
+        if (!addedStage&& levelName != "mainMenu.tmx" && levelName != "ShopAndShit.tmx" && levelName != "Shop.tmx") { 
             stage.graphics.Clear(Color.Empty);
             stage.Text(String.Format("Day : {0}", gameData.stage));
             addedStage = true;
@@ -133,7 +133,7 @@ public class UI : GameObject
 
     public void SetLevel(String pLevel){
         levelName = pLevel;
-        if (levelName == "Level1.tmx") {
+        if (levelName != "mainMenu.tmx" && levelName != "MinotaurLevel.tmx" && levelName != "ShopAndShit.tmx" && levelName != "Shop.tmx" && levelName != "Dead.tmx") {
             AddChild(clock);
         }
     }

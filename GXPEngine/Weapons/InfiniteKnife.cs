@@ -9,8 +9,8 @@ using GXPEngine;
 public class InfiniteKnife : Gun {
 
     public InfiniteKnife(Player pPlayer, Camera pCamera, GameData pGameData) : base("knife.png", pPlayer, pCamera, pGameData, 1, 1, 1) {
-        damage = 10;
-        shootCooldown = 350;
+        damage = gameData.KNIFEDAMAGE;
+        shootCooldown = gameData.KNIFESPEED;
         tweenTime = 75;
         tweenDelta = 9;
         bulletSprite = "knife.png";
@@ -20,7 +20,7 @@ public class InfiniteKnife : Gun {
     }
     protected override void Update(){
         base.Update();
-        if (Time.time > lastShootTime + shootCooldown - 100)
+        if (Time.time > lastShootTime + shootCooldown - shootCooldown/3.5f)
         {
             alpha = 1f;
         }

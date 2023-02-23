@@ -8,8 +8,10 @@ using GXPEngine;
 public class SpeedPickUp : Sprite
 {
 
-    public SpeedPickUp() : base("feather.png"){
-        SetScaleXY(0.1f, 0.1f);
+    public SpeedPickUp() : base("Power-up_speed.png")
+    {
+        SetScaleXY(0.75f, 0.75f);
+        SetOrigin(width / 2, height / 2);
         collider.isTrigger = true;  
     }
 }

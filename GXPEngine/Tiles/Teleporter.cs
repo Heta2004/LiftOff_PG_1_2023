@@ -13,12 +13,21 @@ public class Teleporter:AnimationSprite{
     bool activated = true;
     TeleporterManager tm;
     int number;
+    int time = -20000000;
+    int timeUntilActivation = 10000;
+    Sound sound = new Sound("Teleporter_Shorter.wav");
     public Teleporter(string filename, int cols, int rows, TiledObject obj = null) : base(filename, cols, rows) {
         collider.isTrigger= true;
     }
 
     void Update() {
-        
+
+        if (Time.time - time > timeUntilActivation&&!activated) { 
+            activated= true;
+            time = -20000000;
+            Animate(1);
+        }
+
         if (HitTest(player)&&activated&&DirectionRelatedTools.CalculateDistance(x,y,player.x,player.y)<=20) {
             tm.ChooseTarget(this);   
         }
@@ -32,10 +41,12 @@ public class Teleporter:AnimationSprite{
     }
     public void Teleport(float x,float y) {
         player.SetXY(x,y);
+        sound.Play();
     }
 
     public void ChangeActivation() {
         activated = !activated;
+        time = Time.time;
         Animate(1);
     }
 
@@ -45,6 +56,10 @@ public class Teleporter:AnimationSprite{
 
     public void SetNumber(int pNumber) { 
         number=pNumber;
+    }
+
+    public bool CheckActivation() {
+        return activated;
     }
 
 }

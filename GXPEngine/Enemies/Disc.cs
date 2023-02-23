@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 using GXPEngine;
 using TiledMapParser;
 
-public class EnemyProjectile : Bullet
+public class Disc : Bullet
 {
-    public EnemyProjectile(Player pPlayer) : base(pPlayer, "Snake_Venom.png", 5,1,5)
+    public Disc(Player pPlayer) : base(pPlayer, "Snake_Venom.png", 5, 1, 5)
     {
         speed = 600f;
         //damage = 10;
@@ -21,7 +21,8 @@ public class EnemyProjectile : Bullet
         AnimateFixed(0.4f);
         base.Update();
     }
-    protected override void HitTarget() {
+    protected override void HitTarget()
+    {
         GameObject[] collisions = GetCollisions();
         bool destroy = false;
 

@@ -16,8 +16,8 @@ public class Gun : AnimationSprite{
     protected int lastShootTime = 0;
     protected int shootCooldown = 0;
     protected int damage = 0;
-    //protected Pivot weaponTip = new Pivot();
-    protected Sprite weaponTip = new Sprite("dot.png",false,false);
+    protected Pivot weaponTip = new Pivot();
+    //protected Sprite weaponTip = new Sprite("dot.png",false,false);
     protected float bulletSpawnLocationX;
     protected float bulletSpawnLocationY;
 

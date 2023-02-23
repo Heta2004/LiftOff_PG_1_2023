@@ -97,6 +97,14 @@ public class EnemyMarker:Sprite{
                 shooter.setSpawnXY(x, y);
                 parent.AddChild(shooter);
                 break;
+            case "discGuy":
+                DiscGuy discGuy = new DiscGuy(player);
+                discGuy.SetEnemySpawnManager(esm);
+                discGuy.SetGameData(gameData);
+                discGuy.SetXY(x, y);
+                discGuy.setSpawnXY(x, y);
+                parent.AddChild(discGuy);
+                break;
         }
     
     

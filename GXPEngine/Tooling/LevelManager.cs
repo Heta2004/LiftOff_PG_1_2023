@@ -83,7 +83,8 @@ public class Level : GameObject{
         loader.rootObject = objectLayer;
         loader.LoadObjectGroups();
 
-        if (currentLevelName != "mainMenu.tmx"&&currentLevelName!="end.tmx"){
+        if (currentLevelName != "mainMenu.tmx"&&currentLevelName!="end.tmx" && currentLevelName != "Dead.tmx")
+        {
             ui = new UI(gameData, camera);
             ui.SetLevel(currentLevelName);
             
@@ -107,7 +108,6 @@ public class Level : GameObject{
         {
 
             minotaur = new Minotaur(player, gameData);
-            minotaur.SetScaleXY(2);
             objectLayer.AddChild(minotaur);
             minotaur.SetXY(380, 360);
 
@@ -150,9 +150,6 @@ public class Level : GameObject{
             i.SetNumber(number++);
         }
         
-        //WeaponPickUp wpu = new WeaponPickUp("Mosin_Old.png","mosin");
-        //objectLayer.AddChild(wpu);
-        //wpu.SetXY(700, 700);
 
         Button[] button=FindObjectsOfType<Button>();
         foreach (Button i in button) { 
@@ -165,16 +162,9 @@ public class Level : GameObject{
             d.SetMinotaur(minotaur);
         }
 
-        if (currentLevelName=="Level1.tmx") {
-            FlameThrowerPickUp pickup = new FlameThrowerPickUp();
-            pickup.SetXY(700,700);
-            objectLayer.AddChild(pickup);
-        }
     }
 
     void Update() {
-        //Console.WriteLine( "stage: {0}",gameData.stage);
-        Console.WriteLine();
         if (player != null)
             fogOfWar.SetXY(player.x,player.y);
         
@@ -182,7 +172,7 @@ public class Level : GameObject{
             ((MyGame)game).reset = true;
             ((MyGame)game).LoadLevel("mainMenu.tmx");
         }   
-        if (currentLevelName == "Level1.tmx"&&gameData.gameState==gameData.DAY)
+        if (currentLevelName != "mainMenu.tmx" && currentLevelName != "MinotaurLevel.tmx" && currentLevelName != "ShopAndShit.tmx" && currentLevelName != "Shop.tmx" && gameData.gameState==gameData.DAY)
             if (Time.time - startTime > (float)gameData.dayLength / 4 * 3) {
                 float targetChange= blackThingAlphaTarget/((float)gameData.dayLength/4000);
                 float targetChangeFog = fogOfWarAlphaTarget/((float)gameData.dayLength / 4000);
@@ -202,7 +192,7 @@ public class Level : GameObject{
 
         if (Time.time - startTime >= gameData.dayLength)
             gameData.gameState = gameData.NIGHT;
-        if (currentLevelName == "Level1.tmx" && gameData.gameState == gameData.NIGHT)
+        if (currentLevelName != "mainMenu.tmx" && currentLevelName != "MinotaurLevel.tmx" && currentLevelName != "ShopAndShit.tmx" && currentLevelName != "Shop.tmx" && gameData.gameState == gameData.NIGHT)
         {
             if (Time.time - startTime >= (float)gameData.dayLength + (float)gameData.nightLength / 5*4){
                 float targetBlackness = 0.25f;
@@ -246,7 +236,7 @@ public class Level : GameObject{
             ChooseRandomLevel();
         }
 
-        if (gameData.stage != -1 && currentLevelName != "mainMenu.tmx"&&currentLevelName!= "MinotaurLevel.tmx")
+        if (gameData.stage != -1 && currentLevelName != "mainMenu.tmx"&&currentLevelName!= "MinotaurLevel.tmx" && currentLevelName != "ShopAndShit.tmx" && currentLevelName != "Shop.tmx")
             if (Time.time - startTime >= gameData.dayLength + gameData.nightLength){
                 gameData.scoreMultiplier += gameData.scoreMultiplierIncrease;
                 gameData.gameState=gameData.DAY;
@@ -278,16 +268,31 @@ public class Level : GameObject{
             switch (gameData.stage) {
                 case 0:
                     gameData.nextLevel = "Level1.tmx";
-                    gameData.spawnXLeft =256;
-                    gameData.spawnYLeft = 288;
-                    gameData.spawnXRight = 960;
-                    gameData.spawnYRight = 992;
+                    gameData.spawnXLeft =416;
+                    gameData.spawnYLeft = 416;
+                    gameData.spawnXRight = 1120;
+                    gameData.spawnYRight = 1120;
                     break;
                 case 1:
+                    gameData.nextLevel = "Level2.tmx";
+                    gameData.spawnXLeft = 416;
+                    gameData.spawnYLeft = 448;
+                    gameData.spawnXRight = 1120;
+                    gameData.spawnYRight = 1152;
                     break;
                 case 2:
+                    gameData.nextLevel = "Level3.tmx";
+                    gameData.spawnXLeft = 416;
+                    gameData.spawnYLeft = 448;
+                    gameData.spawnXRight = 1120;
+                    gameData.spawnYRight = 1152;
                     break;
                 case 3:
+                    gameData.nextLevel = "Level4.tmx";
+                    gameData.spawnXLeft = 288;
+                    gameData.spawnYLeft = 288;
+                    gameData.spawnXRight = 1248;
+                    gameData.spawnYRight = 1312;
 
                     break;
             }

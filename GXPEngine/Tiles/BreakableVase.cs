@@ -8,15 +8,13 @@ using TiledMapParser;
 
 public class BreakableVase:AnimationSprite{
     bool start=false;
-    public BreakableVase(string filename, int cols, int rows, TiledObject obj = null) : base("spikes.png", 9,1) { 
+    public BreakableVase(string filename, int cols, int rows, TiledObject obj = null) : base("Vase.png", 1,1,1,false,true) { 
+        collider.isTrigger= true;
     }
 
     void Update() {
         if (start) {
-            AnimateFixed(0.75f);
-            if (currentFrame==8){
-                DestroyVase();
-            }
+            DestroyVase();
         }
     
     

@@ -26,7 +26,7 @@ public class BuyButton : ButtonBase{
                 BuyWeapon(gameData.BIDENT, gameData.AKCOST);
                 break;
             case "RocketLauncher":
-                BuyWeapon(gameData.ROCKETLAUNCHER, gameData.ROCKETLAUNCHERCOST);
+                BuyWeapon(gameData.LIGHTNING, gameData.ROCKETLAUNCHERCOST);
                 break;
             case "Hp":
                 if (gameData.money >= gameData.MAXHPCOST){

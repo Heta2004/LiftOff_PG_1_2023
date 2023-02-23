@@ -40,11 +40,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enemies\Disc.cs" />
     <Compile Include="Enemies\Minotaur\AoeSlam.cs" />
     <Compile Include="Enemies\Minotaur\AoeSpikes.cs" />
+    <Compile Include="Enemies\Minotaur\AttackSpikes.cs" />
     <Compile Include="Enemies\Minotaur\Minotaur.cs" />
+    <Compile Include="Enemies\StandardEnemies\DiscGuy.cs" />
     <Compile Include="Enemies\StandardEnemyBase.cs" />
-    <Compile Include="MouseAimingObject.cs" />
     <Compile Include="PowerUps\FlameThrowerPickUp.cs" />
     <Compile Include="PowerUps\SpeedPickUp.cs" />
     <Compile Include="Tiles\BreakableVase.cs" />
@@ -53,6 +55,7 @@
     <Compile Include="Tiles\TeleporterManager.cs" />
     <Compile Include="Weapons\Bident.cs" />
     <Compile Include="Weapons\BidentFire.cs" />
+    <Compile Include="Weapons\Bolt.cs" />
     <Compile Include="Weapons\Bullet.cs" />
     <Compile Include="Shop\Button.cs" />
     <Compile Include="Shop\ButtonBase.cs" />
@@ -69,7 +72,7 @@
     <Compile Include="GXPEngine\AddOns\Gizmos.cs" />
     <Compile Include="GXPEngine\AddOns\SpriteBatch.cs" />
     <Compile Include="GXPEngine\AddOns\TiledLoader.cs" />
-    <Compile Include="HpDrop.cs" />
+    <Compile Include="PowerUps\HpDrop.cs" />
     <Compile Include="Tooling\LevelManager.cs" />
     <Compile Include="Weapons\InfiniteKnife.cs" />
     <Compile Include="Weapons\Bow.cs" />
@@ -114,8 +117,9 @@
     <Compile Include="Tooling\Particle.cs" />
     <Compile Include="Weapons\ParticleGunSmoke.cs" />
     <Compile Include="Player.cs" />
+    <Compile Include="Weapons\RealBolt.cs" />
     <Compile Include="Weapons\Rocket.cs" />
-    <Compile Include="Weapons\RocketLauncher.cs" />
+    <Compile Include="Weapons\Lightning.cs" />
     <Compile Include="Tooling\ScorePopUp.cs" />
     <Compile Include="Shop\SellButton.cs" />
     <Compile Include="Enemies\StandardEnemies\Shooter.cs" />

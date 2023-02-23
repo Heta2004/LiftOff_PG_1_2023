@@ -13,8 +13,8 @@ public class Bow : Gun
     bool shotBullet = false;
     public Bow(Player pPlayer, Camera pCamera,GameData pGameData) : base("Bow_animation.png", pPlayer, pCamera, pGameData, 8, 1, 8)
     {
-        damage = 25;
-        shootCooldown = 500;
+        damage = gameData.BOWDAMAGE;
+        shootCooldown = gameData.BOWSPEED;
         tweenTime = 250;
         tweenDelta = 25;
 

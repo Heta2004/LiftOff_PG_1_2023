@@ -10,9 +10,10 @@ using GXPEngine.Managers;
 public class Bident : Gun{
 
     public Bident(Player pPlayer, Camera pCamera,GameData pGameData) : base("Bident.png", pPlayer, pCamera,pGameData,1,1,1){
-        damage = 10;
+        damage = gameData.BIDENTDAMAGE;
 
-        shootCooldown= 75;
+        shootCooldown= gameData.BIDENTSPEED;
+        Console.WriteLine(shootCooldown);
         tweenTime = 75;
         tweenDelta = 9;
         RandomizeShootTime(20,40);

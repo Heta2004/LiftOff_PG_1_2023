@@ -16,7 +16,7 @@ public class WeaponManager:AnimationSprite{
 
     const int BIDENT = 1;
     const int BOW = 2;
-    const int ROCKETLAUNCHER = 3;
+    const int LIGHTNING = 3;
     const int SPEAR = 4;
     const int KNIFE = 5;
 
@@ -61,10 +61,10 @@ public class WeaponManager:AnimationSprite{
                 player.AddChild(gun);
                 weaponString = "bow.png";
                 break;
-            case ROCKETLAUNCHER:
-                gun = new RocketLauncher(player, camera, gameData);
+            case LIGHTNING:
+                gun = new Lightning(player, camera, gameData);
                 player.AddChild(gun);
-                weaponString = "RocketLauncher.png";
+                weaponString = "Lighting_bolt.png";
                 break;
             case SPEAR:
                 gun = new Spear(player,camera,gameData);
@@ -88,9 +88,6 @@ public class WeaponManager:AnimationSprite{
     }
 
     void UpdateLocation(){
-        //if (gun != null)
-        //    gun.SetXY(player.x + gunX, player.y + gunY);
-
     }
 
     public void setTarget(Player pPlayer)
@@ -127,7 +124,6 @@ public class WeaponManager:AnimationSprite{
             }
 
             if (gameData.selectedWeapon > gameData.gunArray.Count-1){ 
-                //selectedWeapon--;
                 gameData.selectedWeapon--;
             }   
             

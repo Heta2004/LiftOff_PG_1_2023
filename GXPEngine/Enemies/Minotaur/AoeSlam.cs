@@ -6,15 +6,19 @@ using System.Threading.Tasks;
 
 using GXPEngine;
 
-public class AoeSlam:Sprite{
+public class AoeSlam:AnimationSprite{
     int startTime;
-    int duration = 200;
-    public AoeSlam() : base("AOEShockWave.png", true) { 
+    int duration = 500;
+    public AoeSlam() : base("AOEShockWave.png",2,1,2,false,true) { 
         collider.isTrigger= true;
         startTime = Time.time;
+        Tween tween = new Tween(TweenProperty.rotation,500,1000,2);
+        AddChild(tween);
+
     }
 
-    void Update() { 
+    void Update() {
+        AnimateFixed(0.75f);
         if (Time.time-startTime > duration) { 
             Destroy();
         }

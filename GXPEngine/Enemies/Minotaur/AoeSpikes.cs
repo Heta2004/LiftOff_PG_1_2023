@@ -9,11 +9,12 @@ using GXPEngine;
 public class AoeSpikes : Sprite
 {
     int startTime;
-    int duration = 300;
-    public AoeSpikes() : base("spikesBoss.png", true)
+    int duration = 500;
+    public AoeSpikes() : base("spikesBoss.png")
     {
-        collider.isTrigger = true;
+        //collider.isTrigger = true;
         startTime = Time.time;
+        alpha = 0.3f;//0.4f
     }
 
     void Update()

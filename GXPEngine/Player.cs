@@ -81,8 +81,8 @@ public class Player : AnimationSprite {
     }
 
     void IdleState() {
-        SetCycle(8,11);
-        AnimateFixed(0.5f);
+        SetCycle(8,5);
+        AnimateFixed(0.3f);
         if (isMoving)
             state = RUN;
     }
@@ -157,7 +157,7 @@ public class Player : AnimationSprite {
         }
         if (hp <= 0) {
             ((MyGame)game).reset = true;
-            ((MyGame)game).LoadLevel("mainMenu.tmx");
+            ((MyGame)game).LoadLevel("Dead.tmx");
         }
     }
 
@@ -229,8 +229,8 @@ public class Player : AnimationSprite {
                     case "bow":
                         AddWeaponAndAmmo(gameData.BOW,gameData.MAXBOWBULLETS,col);
                         break;
-                    case "rocketLauncher":
-                        AddWeaponAndAmmo(gameData.ROCKETLAUNCHER, gameData.MAXROCKETLAUNCHERBULLETS, col);
+                    case "lightning":
+                        AddWeaponAndAmmo(gameData.LIGHTNING, gameData.MAXLIGHTNINGBULLETS, col);
                         break;
                     case "spear":
                         AddWeaponAndAmmo(gameData.SPEAR,gameData.MAXSPEARBULLETS, col);

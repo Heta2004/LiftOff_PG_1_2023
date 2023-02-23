@@ -19,7 +19,7 @@ public class TeleporterManager:GameObject{
     public void ChooseTarget(Teleporter currentTeleporter) {
         var rand = new Random();
         int randomNumber=currentTeleporter.GetNumber();
-        if (previousDeactivation!=-1)
+        if (previousDeactivation != -1 && !teleporters[previousDeactivation].CheckActivation())
             teleporters[previousDeactivation].ChangeActivation();
         Console.WriteLine(randomNumber);
         while (randomNumber==currentTeleporter.GetNumber()) {

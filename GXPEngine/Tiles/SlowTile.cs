@@ -15,16 +15,14 @@ public class SlowTile : AnimationSprite{
     }
 
     void Update() { 
-    
-    
+        CheckCollisions();
     }
 
     void CheckCollisions() {
         GameObject[] collisions = GetCollisions(true,false);
         foreach (GameObject col in collisions)
         {
-            if (col is Enemy)
-            {
+            if (col is Enemy){
                 ((Enemy)col).speed = ((Enemy)col).lastSpeed * ((Enemy)col).speedDecreaseMultiplier;
             }
         }

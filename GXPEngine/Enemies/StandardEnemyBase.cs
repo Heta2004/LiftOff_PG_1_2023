@@ -33,7 +33,11 @@ public class StandardEnemyBase : Enemy {
     }
 
     protected override void Update(){
-        speed = lastSpeed;
+        //speed = lastSpeed;
+        if (angle >= 90 && angle <= 270)
+            Mirror(true, false);
+        else
+            Mirror(false, false);
         AnimateFixed(0.65f);
         if (gameData != null)
         {
@@ -50,6 +54,7 @@ public class StandardEnemyBase : Enemy {
 
         }
         base.Update();
+        speed = lastSpeed;
     }
 
     public void setSpawnXY(float x, float y)
@@ -85,7 +90,7 @@ public class StandardEnemyBase : Enemy {
             frameTime = 0;
         }else {
             SetXY(oldX,oldY);
-            Console.WriteLine(pathfindingRotation);
+            //Console.WriteLine(pathfindingRotation);
             rotation = pathfindingRotation;
             //GXPEngine.Core.Vector2 worldDirection1 = TransformDirection(finalSpeed, 0);
             //MoveUntilCollision(worldDirection1.x, worldDirection1.y);

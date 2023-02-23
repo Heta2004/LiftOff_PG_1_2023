@@ -8,11 +8,12 @@ using GXPEngine;
 public class StandardEnemy : StandardEnemyBase
 {
 
-    public StandardEnemy(Player pPlayer) : base("StandardEnemy.png",4,1, pPlayer){
+    public StandardEnemy(Player pPlayer) : base("Snek_attac.png", 9,1, pPlayer){
         EnemySetStats(80f,10,50);
         lastSpeed = 80f;
         scoreOnDeath =20;
         RandomizeSpeed(6, 15);
+        SetCycle(0, 4);
     }
 
 

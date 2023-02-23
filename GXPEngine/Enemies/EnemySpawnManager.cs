@@ -14,18 +14,18 @@ public class EnemySpawnManager : AnimationSprite {
 
     int lastSpawnTime = 0;
     int enemyNumber = 0;
-    int[,] spawnChances = new int[10, 3] {
+    int[,] spawnChances = new int[10, 4] {
 
-                                        {100,0,0},
-                                        {90,100,0},
-                                        {70,90,100},
-                                        {65,85,100},
-                                        {60,80,100},
-                                        {60,80,100},
-                                        {60,80,100},
-                                        {60,80,100},
-                                        {60,80,100},
-                                        {60,80,100}
+                                        {0,0,0,100},//100,0,0
+                                        {90,100,0,0},
+                                        {70,90,100,0},
+                                        {65,85,100, 0},
+                                        {60,80,100, 0},
+                                        {60,80,100, 0},
+                                        {60,80,100, 0},
+                                        {60,80,100, 0},
+                                        {60,80,100, 0},
+                                        {60,80,100, 0}
 
                                         };
 
@@ -52,17 +52,25 @@ public class EnemySpawnManager : AnimationSprite {
             enemyNumber++;
             var rand = new Random();
             int randomNumber = rand.Next(1,101);
-            if (randomNumber <= spawnChances[selectedSpawnPatern, 0]){
-                EnemyMarker em = new EnemyMarker("standard",gameData,this,player);
+            if (randomNumber <= spawnChances[selectedSpawnPatern, 0])
+            {
+                EnemyMarker em = new EnemyMarker("standard", gameData, this, player);
                 parent.AddChild(em);
             }
             else
-                if (randomNumber <= spawnChances[selectedSpawnPatern, 1]){
+                if (randomNumber <= spawnChances[selectedSpawnPatern, 1])
+            {
                 EnemyMarker em = new EnemyMarker("tank", gameData, this, player);
                 parent.AddChild(em);
             }
-                else {
+            else
+                if (randomNumber <= spawnChances[selectedSpawnPatern, 1])
+            {
                 EnemyMarker em = new EnemyMarker("shooter", gameData, this, player);
+                parent.AddChild(em);
+            }
+            else {
+                EnemyMarker em = new EnemyMarker("discGuy", gameData, this, player);
                 parent.AddChild(em);
             }
 

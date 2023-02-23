@@ -278,7 +278,7 @@ public class Enemy:AnimationSprite{
                     pickup.SetXY(x, y);
                     break;
                 case 3:
-                    pickup = new WeaponPickUp("RocketLauncher.png", "rocketLauncher");
+                    pickup = new WeaponPickUp("Lighting_bolt.png", "lightning");
                     parent.AddChild(pickup);
                     pickup.SetXY(x, y);
                     break;
