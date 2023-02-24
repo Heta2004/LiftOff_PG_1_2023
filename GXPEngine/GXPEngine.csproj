@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AimingReticle.cs" />
     <Compile Include="Enemies\Disc.cs" />
     <Compile Include="Enemies\Minotaur\AoeSlam.cs" />
     <Compile Include="Enemies\Minotaur\AoeSpikes.cs" />

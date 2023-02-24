@@ -17,8 +17,8 @@ public class Spear : Gun{
         tweenDelta = 9;
         RandomizeShootTime(20, 40);
 
-        shotSound = new Sound("ak1.mp3");
-        targetVolume = 0.15f;
+        shotSound = new Sound("Spear.ogg");
+        targetVolume = 1f;
         changeLocation = true;
         weaponX= 6;
         weaponY= 0;

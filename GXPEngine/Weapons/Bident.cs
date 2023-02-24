@@ -18,7 +18,7 @@ public class Bident : Gun{
         tweenDelta = 9;
         RandomizeShootTime(20,40);
 
-        shotSound = new Sound("ak1.mp3");
+        shotSound = new Sound("Bident.ogg");
         targetVolume = 0.15f;
         changeLocation = true;
         SetOrigin(8, 4);
@@ -43,7 +43,7 @@ public class Bident : Gun{
         //weaponTip.AddChild(smoke);
         //smoke.SetXY(width / 2, -height / 9);
         //smoke.rotation = 0;
-        SoundChannel shotSoundChannel = shotSound.Play();
+        SoundChannel shotSoundChannel = shotSound.Play(false,0,5);
         shotSoundChannel.Volume = targetVolume;
 
     }

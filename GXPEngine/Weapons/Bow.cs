@@ -20,9 +20,9 @@ public class Bow : Gun
 
         RandomizeShootTime(15,50);
 
-        shotSound = new Sound("mosinShot.mp3");
+        shotSound = new Sound("Bow_3_Arrows.ogg");
         targetSound = "mosinShot.mp3";
-        targetVolume = 0.20f;
+        targetVolume = 1f;
 
         currentFrame = 7;
         bulletSprite = "arrow.png";

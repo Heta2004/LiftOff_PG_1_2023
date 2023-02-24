@@ -16,16 +16,16 @@ public class EnemySpawnManager : AnimationSprite {
     int enemyNumber = 0;
     int[,] spawnChances = new int[10, 4] {
 
-                                        {0,0,0,100},//100,0,0
-                                        {90,100,0,0},
-                                        {70,90,100,0},
-                                        {65,85,100, 0},
-                                        {60,80,100, 0},
-                                        {60,80,100, 0},
-                                        {60,80,100, 0},
-                                        {60,80,100, 0},
-                                        {60,80,100, 0},
-                                        {60,80,100, 0}
+                                        {90,0,100,0},
+                                        {70,80,100,0},
+                                        {60,70,90,100},
+                                        {50,70,90, 100},
+                                        {25,25,25,25},
+                                        {20,30,50, 100},
+                                        {50,70,90, 100},
+                                        {0,100,0, 0},
+                                        {20,50,90, 100},
+                                        {70,80,90, 100}
 
                                         };
 
@@ -33,6 +33,7 @@ public class EnemySpawnManager : AnimationSprite {
     int maxEnemyPerStage = 1;
     int delayPerStage = 10000;
     int selectedSpawnPatern;
+    bool halfedDelay = false;
 
     Player player;
     
@@ -41,7 +42,18 @@ public class EnemySpawnManager : AnimationSprite {
     }
 
     void Update() {
-        Console.WriteLine(selectedSpawnPatern);
+        if (gameData != null) {
+            if (gameData.gameState == gameData.NIGHT&&!halfedDelay) {
+                delayPerStage /= 2;
+                halfedDelay= true;
+            }
+
+            if (gameData.stage > 4) {
+                var rand = new Random();
+                selectedSpawnPatern = rand.Next(4, 10);
+            }
+        }
+        //Console.WriteLine(selectedSpawnPatern);
         SpawnEnemy();
     }
 
@@ -56,22 +68,26 @@ public class EnemySpawnManager : AnimationSprite {
             {
                 EnemyMarker em = new EnemyMarker("standard", gameData, this, player);
                 parent.AddChild(em);
+                em.ChooseSpawnLocation();
             }
             else
                 if (randomNumber <= spawnChances[selectedSpawnPatern, 1])
             {
                 EnemyMarker em = new EnemyMarker("tank", gameData, this, player);
                 parent.AddChild(em);
+                em.ChooseSpawnLocation();
             }
             else
-                if (randomNumber <= spawnChances[selectedSpawnPatern, 1])
+                if (randomNumber <= spawnChances[selectedSpawnPatern, 2])
             {
                 EnemyMarker em = new EnemyMarker("shooter", gameData, this, player);
                 parent.AddChild(em);
+                em.ChooseSpawnLocation();
             }
             else {
                 EnemyMarker em = new EnemyMarker("discGuy", gameData, this, player);
                 parent.AddChild(em);
+                em.ChooseSpawnLocation();
             }
 
         }

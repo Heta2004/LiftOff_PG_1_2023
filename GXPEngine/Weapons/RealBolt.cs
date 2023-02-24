@@ -36,6 +36,7 @@ public class RealBolt:Bullet{
         parent.AddChild(explosion);
         explosion.SetDamage(damage);
         explosion.SetXY(x, y);
+        SoundChannel shotSound = new Sound("Lightning_2_Impact.ogg").Play(false,0,1);
         Destroy();
     }
 

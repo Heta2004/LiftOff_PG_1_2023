@@ -10,7 +10,7 @@ using Tools;
 
 public class Shooter: StandardEnemyBase
 {
-    protected int shotDamage = 20;
+    protected int shotDamage = 15;
     protected int lastShootTime = 0;
     protected int ShootCooldown = 500;
     protected const int SHOOT = 1;
@@ -18,9 +18,9 @@ public class Shooter: StandardEnemyBase
     protected int state=CHASEP;
 
     public Shooter(Player pPlayer) : base("Purple_snake.png", 9,1, pPlayer) {
-        EnemySetStats(80f, 10, 50);//165
+        EnemySetStats(100f, 10, 100);//165
         
-        lastSpeed = 80f;
+        lastSpeed = 100f;
         scoreOnDeath = 60;
         player= pPlayer;
         RandomizeSpeed(6, 15);

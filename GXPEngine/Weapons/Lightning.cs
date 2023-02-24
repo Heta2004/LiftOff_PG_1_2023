@@ -18,8 +18,8 @@ public class Lightning : Gun
         tweenTime = 500;
         tweenDelta = 80;
         RandomizeShootTime(50,150);
-        shotSound = new Sound("RocketLauncherFire.mp3");
-        targetVolume = 0.15f;
+        shotSound = new Sound("Lightning_1.ogg");
+        targetVolume = 1f;
         changeLocation = true ;
         SetOrigin(16, 3);//16
         weaponX = 8; weaponY = 3;

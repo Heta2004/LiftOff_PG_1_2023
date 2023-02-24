@@ -10,6 +10,7 @@ using System.Xml;
 using TiledMapParser;
 using System.Runtime.Remoting.Messaging;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 
 public class UI : GameObject
 {
@@ -22,6 +23,7 @@ public class UI : GameObject
     EasyDraw timer=new EasyDraw(120, 100, false);
     EasyDraw stage = new EasyDraw(100,100,false);
     EasyDraw bulletCounter=new EasyDraw(100,100,false);
+    EasyDraw money=new EasyDraw(100,100,false);
 
     Sprite clock = new Sprite("Clock.png",false,false);
     
@@ -36,6 +38,9 @@ public class UI : GameObject
         camera = pCamera;
         lastScore = gameData.score;
         AddChild(hpBar);
+
+        money.TextSize(10);
+        AddChild(money);
 
         scoreCounter.TextSize(10);
         scoreCounter.TextAlign(CenterMode.Center, CenterMode.Min);
@@ -72,6 +77,7 @@ public class UI : GameObject
         AddStage();
         RotateClock();
         BulletCounter();
+        AddMoneyThing();
     }
 
     public void AddPlayerHpBar(float hpPercentage,int playerHp) {
@@ -89,6 +95,15 @@ public class UI : GameObject
         hpBar.Text(String.Format("         {0}/{1}",playerHp,gameData.playerMaxHp));
     }
 
+    void AddMoneyThing() {
+        if (levelName=="Shop.tmx"){
+            money.graphics.Clear(Color.Empty);
+
+            money.TextAlign(CenterMode.Center, CenterMode.Min);
+            money.Text(String.Format("Coins : {0}", gameData.money));
+
+        }
+    }
     void AddCashCounter() {
 
         if (lastScore != gameData.score){
@@ -144,6 +159,7 @@ public class UI : GameObject
         timer.SetXY(x+270,y+33);
         clock.SetXY(x + 330, y + 50);//50
         bulletCounter.SetXY(x,y+35);
+        money.SetXY(x + 10, y + 10);
     }
 
 }

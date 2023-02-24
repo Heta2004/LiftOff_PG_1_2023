@@ -29,7 +29,7 @@ public class EnemyMarker:Sprite{
         enemyType = pEnemyType;
         if (enemyType=="tank")
             SetScaleXY(2,2) ;
-        ChooseSpawnLocation();
+        //ChooseSpawnLocation();
     
     }
 
@@ -58,7 +58,7 @@ public class EnemyMarker:Sprite{
             alpha = 0.5f;
         
     }
-    void ChooseSpawnLocation(){
+    public void ChooseSpawnLocation(){
         GameObject[] overlaps = GetCollisions(false, true);
         bool setCoords = false;
         while (overlaps.Length > 0||!setCoords) {

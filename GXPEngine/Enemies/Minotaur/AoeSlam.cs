@@ -22,5 +22,17 @@ public class AoeSlam:AnimationSprite{
         if (Time.time-startTime > duration) { 
             Destroy();
         }
+        HitTarget();
+    }
+
+    protected void HitTarget(){
+        GameObject[] collisions = GetCollisions();
+
+        foreach (GameObject col in collisions)
+        {
+            if (col is DestructibleWall)
+                col.Destroy();
+        }
+
     }
 }

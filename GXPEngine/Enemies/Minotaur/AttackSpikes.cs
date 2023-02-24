@@ -9,10 +9,12 @@ using GXPEngine;
 public class AttackSpikes : AnimationSprite
 {
     int startTime;
-    int duration = 500;
-    float speed = 275f;
-    public AttackSpikes() : base("AttackSpikes.png", 2,1,2,false,true)
+    int duration = 750;//500
+    float speed = 300f;//275
+    int id;
+    public AttackSpikes(int pId) : base("AttackSpikes.png", 2,1,2,false,true)
     {
+        id = pId;
         collider.isTrigger = true;
         startTime = Time.time;
 
@@ -23,6 +25,7 @@ public class AttackSpikes : AnimationSprite
     }
 
     void Update(){
+        Console.WriteLine(id+" "+"({0},{1})", x, y);
         Animate(0.5f);
         int deltaTimeClamped = Math.Min(Time.deltaTime, 40);
         float finalSpeed = speed * deltaTimeClamped / 1000;
@@ -31,5 +34,22 @@ public class AttackSpikes : AnimationSprite
         if (Time.time - startTime > duration){
             Destroy();
         }
+
+        HitTarget();
+    }
+
+    protected void HitTarget()
+    {
+        GameObject[] collisions = GetCollisions();
+
+        foreach (GameObject col in collisions)
+        {
+            if (col is DestructibleWall) {
+                col.Destroy();
+                this.Destroy();
+            }
+
+        }
+
     }
 }

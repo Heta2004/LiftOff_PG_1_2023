@@ -42,13 +42,18 @@ public class ButtonBase:AnimationSprite{
 
 
     //buy upgrades
+
+    protected void SetText(int arg1, int arg2)
+    {
+        popUp.Text(String.Format("      Cost : {0}\n Increase max \n ammo by : {1}", arg1, arg2));
+    }
     protected void SetText(string message1,int arg1,int arg2){
-        popUp.Text(String.Format("         Cost : {0}\n" + message1 + "\n              {1}", arg1, arg2));
+        popUp.Text(String.Format("          Cost : {0}\n" + message1 + "\n              {1}", arg1, arg2));
     }
 
     //buy speed
     protected void SetText(string message1, int arg1, string message2){
-        popUp.Text(String.Format("         Cost : {0}\n" + message1 + "\n              "+message2, arg1));
+        popUp.Text(String.Format("          Cost : {0}\n" + message1 + "\n              "+message2, arg1));
     }
     //buy weapons
     protected void SetText(int arg1,int arg2,int arg3){

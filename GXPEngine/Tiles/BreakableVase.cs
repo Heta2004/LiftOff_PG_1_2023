@@ -16,12 +16,10 @@ public class BreakableVase:AnimationSprite{
         if (start) {
             DestroyVase();
         }
-    
-    
     }
     void DestroyVase() {
         var rand = new Random();
-        int randomNumber = rand.Next(0,2);
+        int randomNumber = rand.Next(0,7);
         switch (randomNumber) {
             case 0:
                 FlameThrowerPickUp flame=new FlameThrowerPickUp();
@@ -32,6 +30,31 @@ public class BreakableVase:AnimationSprite{
                 SpeedPickUp speed=new SpeedPickUp();
                 speed.SetXY(x,y);
                 parent.AddChild(speed);
+                break;
+            case 2:
+                WeaponPickUp bident = new WeaponPickUp("Bident.png", "bident");
+                parent.AddChild(bident);
+                bident.SetXY(x, y);
+                break;
+            case 3:
+                WeaponPickUp bow = new WeaponPickUp("bow.png", "bow");
+                parent.AddChild(bow);
+                bow.SetXY(x, y);
+                break;
+            case 4:
+                WeaponPickUp light = new WeaponPickUp("Lighting_bolt.png", "lightning");
+                parent.AddChild(light);
+                light.SetXY(x, y);
+                break;
+            case 5:
+                WeaponPickUp spear = new WeaponPickUp("spear.png", "spear");
+                parent.AddChild(spear);
+                spear.SetXY(x, y);
+                break;
+            case 6:
+                HpDrop hpDrop = new HpDrop();
+                hpDrop.SetXY(x, y);
+                parent.AddChild(hpDrop);
                 break;
         }
 

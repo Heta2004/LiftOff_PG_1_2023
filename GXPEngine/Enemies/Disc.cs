@@ -9,7 +9,7 @@ using TiledMapParser;
 
 public class Disc : Bullet
 {
-    public Disc(Player pPlayer) : base(pPlayer, "Snake_Venom.png", 5, 1, 5)
+    public Disc(Player pPlayer) : base(pPlayer, "disk.png", 1, 1, 1)
     {
         speed = 600f;
         //damage = 10;

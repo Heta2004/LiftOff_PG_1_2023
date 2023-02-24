@@ -8,8 +8,7 @@ using GXPEngine;
 using TiledMapParser;
 using Tools;
 
-public class DiscGuy : StandardEnemyBase
-{
+public class DiscGuy : StandardEnemyBase{
     protected int shotDamage = 20;
     protected int lastShootTime = 0;
     protected int ShootCooldown = 1000;
@@ -19,7 +18,7 @@ public class DiscGuy : StandardEnemyBase
 
     public DiscGuy(Player pPlayer) : base("diskGuy.png", 8, 1, pPlayer)
     {
-        EnemySetStats(0, 10, 50);
+        EnemySetStats(0, 10, 250);
 
         lastSpeed = 0;
         scoreOnDeath = 60;
@@ -64,7 +63,7 @@ public class DiscGuy : StandardEnemyBase
         var result2 = TransformPoint(x, y);
         float angle = Tools.DirectionRelatedTools.CalculateAngle(result2.x, result2.y, result.x, result.y);
         lastShootTime = Time.time;
-        EnemyProjectile bullet = new EnemyProjectile(player);
+        Disc bullet = new Disc(player);
         bullet.SetDamage(shotDamage);
         if (!_mirrorX)
             bullet.SetXY(x + 5, y);

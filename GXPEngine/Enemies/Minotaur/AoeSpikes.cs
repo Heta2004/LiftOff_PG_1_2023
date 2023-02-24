@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,11 +15,12 @@ public class AoeSpikes : Sprite
     {
         //collider.isTrigger = true;
         startTime = Time.time;
-        alpha = 0.3f;//0.4f
+        alpha = 0.2f;//0.4f
     }
 
     void Update()
     {
+
         if (Time.time - startTime > duration)
         {
             Destroy();

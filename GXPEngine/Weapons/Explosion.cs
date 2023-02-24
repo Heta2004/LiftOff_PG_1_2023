@@ -12,8 +12,9 @@ public class Explosion:AnimationSprite{
     private int startTime = Time.time;
     private int explosionDamage;
     public Explosion() : base("Lighting_explosion.png", 6,1,6) {
+        collider.isTrigger= true;
         SetOrigin(width / 2,height/2);
-        SetScaleXY(2.5f, 2.5f);//3f
+        SetScaleXY(4f, 4f);//3f
     }
 
     void Update() {
@@ -26,7 +27,14 @@ public class Explosion:AnimationSprite{
                 ((Enemy)col).ChangeDamagedByExplosion();
                 ((Enemy)col).DamageEnemy(explosionDamage);
             }
+
+            if (col is BreakableVase)
+            {
+                ((BreakableVase)col).StartAnimation();
+  
+            }
         }
+
 
 
         if (Time.time - startTime > timeAlive) { 

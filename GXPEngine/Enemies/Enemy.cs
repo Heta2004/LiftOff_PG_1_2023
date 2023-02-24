@@ -68,7 +68,7 @@ public class Enemy:AnimationSprite{
     }
 
     protected virtual void MoveEnemy(float angle) {
-        
+
         rotation = angle;
         int deltaTimeClamped = Math.Min(Time.deltaTime, 40);
         float finalSpeed = speed * deltaTimeClamped / 1000;
@@ -81,78 +81,6 @@ public class Enemy:AnimationSprite{
         if (col != null){
             SwitchStatePathFinding();
         }
-        //GXPEngine.Core.Vector2 worldDirection = TransformDirection(finalSpeed, 0);
-        //GXPEngine.Core.Collision col = MoveUntilCollision(worldDirection.x, worldDirection.y);
-        //if (col != null)
-        //{
-        //    // continue moving along the wall?
-        //    Console.WriteLine("Collision normal: " + col.normal);
-        //    Vector2 left = new Vector2(-col.normal.y, col.normal.x);
-        //    Vector2 right = new Vector2(col.normal.y, -col.normal.x);
-
-        //    // Make it move again:
-        //    MoveUntilCollision(finalSpeed*left.x, finalSpeed * left.y);
-        //    //MoveUntilCollision(left.x, left.y);
-
-        //}
-
-
-        //GameObject[] overlaps = GetCollisions(false, true);
-
-        //if (changeDirection)
-        //{
-        //    if (col!=null)
-        //    {
-        //        Console.WriteLine(1); 
-                
-                
-                
-        //        //SetXY(lastX, lastY);
-        //        switch ((int)(oldRotation / 45))
-        //        {
-        //            case 0:
-        //                rotation = 90;
-        //                break;
-        //            case 1:
-        //                rotation = 180;
-        //                break;
-        //            case 2:
-        //                rotation = 180;
-        //                break;
-        //            case 3:
-        //                rotation = 270;
-        //                break;
-        //            case 4:
-        //                rotation = 270;
-        //                break;
-        //            case 5:
-        //                rotation = 360;
-        //                break;
-        //            case 6:
-        //                rotation = 360;
-        //                break;
-        //            case 7:
-        //                rotation = 450;
-        //                break;
-
-        //        }
-        //        backupPath = rotation;
-        //        worldDirection = TransformDirection(finalSpeed, 0);
-        //        MoveUntilCollision(worldDirection.x, worldDirection.y);
-        //        //Move(finalSpeed, 0);
-        //        overlaps = GetCollisions(false, true);
-        //        lastTry++;
-        //    }
-        //}
-        //else
-        //{
-        //    if (overlaps.Length > 0)
-        //    {
-        //        SetXY(lastX, lastY);
-
-        //    }
-
-        //}
 
         rotation = 0;
 
@@ -170,6 +98,7 @@ public class Enemy:AnimationSprite{
             if (gameData!=null)
                 gameData.score += (int)(scoreOnDeath*gameData.scoreMultiplier);
             ScorePopUp scorePopUp = new ScorePopUp((int)(scoreOnDeath * gameData.scoreMultiplier));
+            gameData.money++;
             parent.AddChild(scorePopUp);
             scorePopUp.SetXY(this.x,this.y-height);
             ((Level)parent.parent).continueLevel = true;
@@ -183,17 +112,6 @@ public class Enemy:AnimationSprite{
     
     
     }
-
-    //protected void DamagePlayer() {
-
-    //    GameObject[] collisions=GetCollisions();
-    //    foreach (GameObject col in collisions){
-    //        if (col is SlowTile) {
-    //            speed = lastSpeed * gameData.speedDecreaseMutliplier;
-    //        }
-    //    }
-    
-    //}
 
     protected void EnemySetStats(float pSpeed,int pDamage,int pHp) {
         speed = pSpeed;
@@ -257,7 +175,11 @@ public class Enemy:AnimationSprite{
     protected void CheckForDrops() {
 
         var rand = new Random();
-        int randomNumber = rand.Next(1, 16);
+        int randomNumber=0;
+        if (gameData.gameState==gameData.DAY)
+            randomNumber = rand.Next(1, 6);
+        else
+            randomNumber= rand.Next(1, 16);
         if (randomNumber == 1) {
             HpDrop hpDrop = new HpDrop();
             hpDrop.SetXY(x, y);

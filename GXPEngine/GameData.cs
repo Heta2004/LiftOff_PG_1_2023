@@ -14,14 +14,15 @@ public class GameData : GameObject {
     public int KNIFE = 5;
 
 
-    public int AKCOST = 65;
-    public int BOWCOST = 35;
-    public int ROCKETLAUNCHERCOST = 150;
+    public int BIDENTCOST = 15;
+    public int BOWCOST = 15;
+    public int BOLTCOST = 15;
+    public int SPEARCOST = 15;
 
 
-    public int MAXBIDENTBULLETS=300;
+    public int MAXBIDENTBULLETS=200;
     public int MAXBOWBULLETS=30;
-    public int MAXLIGHTNINGBULLETS=10;
+    public int MAXLIGHTNINGBULLETS=3;
     public int MAXSPEARBULLETS=10;
     public int MAXKNIFEBULLES = 2147483647;
 
@@ -37,7 +38,7 @@ public class GameData : GameObject {
     public int SPEARSPEED;
     public int KNIFESPEED;
 
-    public int DEFAULTBIDENTSPEED = 75;
+    public int DEFAULTBIDENTSPEED = 75;//75
     public int DEFAULTBOWSPEED = 500;//500
     public int DEFAULTLIGHTNINGSPEED = 1000;
     public int DEFAULTSPEARSPEED = 750;
@@ -45,28 +46,29 @@ public class GameData : GameObject {
 
     public int DEFAULTBIDENTDAMAGE = 10;
     public int DEFAULTBOWDAMAGE = 25;
-    public int DEFAULTLIGHTNINGDAMAGE = 50;
+    public int DEFAULTLIGHTNINGDAMAGE = 125;
     public int DEFAULTSPEARDAMAGE = 75;
     public int DEFAULTKNIFEDAMAGE = 10;
 
-    public int DEFAULTMAXBIDENTBULLETS = 300;
+    public int DEFAULTMAXBIDENTBULLETS = 200;
     public int DEFAULTMAXBOWBULLETS = 30;
-    public int DEFAULTMAXLIGHTNINGBULLETS = 10;
+    public int DEFAULTMAXLIGHTNINGBULLETS = 3;
     public int DEFAULTMAXSPEARBULLETS = 10;
 
-    public int MAXHPCOST = 30;
+    public int MAXHPCOST = 10;
     public int MAXHPINCREASE = 10;
-    public int ARMORCOST = 40;
+    public int DAMAGECOST = 20;
 
-    public float SPEEDINCREASE = 0.1f;
+    public float SPEEDINCREASE = 0.05f;
     public float SPEEDINCREASEPICKUP = 0.15f;
-    public int SPEEDINCREASECOST = 45;
+    public int SPEEDINCREASECOST = 25;
+    public int WEAPONSPEEDCOST = 20;
 
-    public int HPONPICKUP = 10; 
+    public int HPONPICKUP = 100; 
 
     public int playerMaxHp;
-    public int maxGunNumber = 4;
-    public int playerArmor;
+    public int maxGunNumber = 5;
+    //public int playerArmor;
     public float playerSpeedIncrease;
 
     public int[] guns;
@@ -80,8 +82,8 @@ public class GameData : GameObject {
     public bool changedLevel = false;
     public long levelStartTime;
 
-    public int dayLength = 5000;//45000
-    public int nightLength = 5000;//45000
+    public int dayLength = 1000;//45000
+    public int nightLength = 1000;//45000
 
     public int DAY = 1;
     public int NIGHT = 2;
@@ -105,11 +107,11 @@ public class GameData : GameObject {
     public int speedBoostDuration = 10000;
     public int money;
 
-    public int contactDamageStandard = 20;
-    public int contactDamageTank = 30;
+    public int contactDamageStandard = 10;
+    public int contactDamageTank = 20;
     public int contactDamageMinotaur = 50;
     public int minotaurSlamDamage = 50;
-    public int minotaurSpikeDamage = 40;
+    public int minotaurSpikeDamage = 25;
 
     public string lastLevel;
     public int spawnXLeft;
@@ -128,15 +130,15 @@ public class GameData : GameObject {
         score = 0;
         scoreMultiplier=1;
         gameState = DAY;
-        playerMaxHp = 500;
-        playerArmor = 0;
+        playerMaxHp = 200;
+        //playerArmor = 0;
         playerSpeedIncrease = 0;
-        guns = new int[] { 5,1,3,2 };
-        bullets=new int[] { MAXKNIFEBULLES,MAXBIDENTBULLETS,MAXLIGHTNINGBULLETS,MAXBOWBULLETS };
+        guns = new int[] { 5,1,3,4,2 };
+        bullets=new int[] { MAXKNIFEBULLES,MAXBIDENTBULLETS,MAXLIGHTNINGBULLETS,MAXSPEARBULLETS,MAXBOWBULLETS };
         gunArray = new List<int>(guns);
         GunBullets= new List<int>(bullets);
         gunNumber = 0;
-        stage = 0;
+        stage = 3;
         score = 0;
         changedLevel = false;
 

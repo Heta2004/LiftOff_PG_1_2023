@@ -32,6 +32,13 @@ public class BulletSniper:Bullet{
                     destroy = true;
                 break;
             }
+            if (col is BreakableVase)
+            {
+                ((BreakableVase)col).StartAnimation();
+                collisionsLeft--;
+                if (collisionsLeft == 0)
+                    destroy = true;
+            }
 
             if (col is Wall||col is DestructibleWall)
                 destroy = true;

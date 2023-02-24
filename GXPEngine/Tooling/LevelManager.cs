@@ -104,6 +104,9 @@ public class Level : GameObject{
             player.SetUI(ui);
         }
 
+        AimingReticle aim = new AimingReticle(camera);
+        
+
         if (currentLevelName == "MinotaurLevel.tmx")
         {
 
@@ -161,6 +164,8 @@ public class Level : GameObject{
         {
             d.SetMinotaur(minotaur);
         }
+
+        lateStuffToAdd.AddChild(aim);
 
     }
 
@@ -264,11 +269,13 @@ public class Level : GameObject{
 
 
     void ChooseRandomLevel() {
-        if (gameData.stage <= 4) {
-            switch (gameData.stage) {
+        if (gameData.stage <= 4)
+        {
+            switch (gameData.stage)
+            {
                 case 0:
                     gameData.nextLevel = "Level1.tmx";
-                    gameData.spawnXLeft =416;
+                    gameData.spawnXLeft = 416;
                     gameData.spawnYLeft = 416;
                     gameData.spawnXRight = 1120;
                     gameData.spawnYRight = 1120;
@@ -296,6 +303,43 @@ public class Level : GameObject{
 
                     break;
             }
+        }
+        else {
+            var rand = new Random();
+            int randomNumber = rand.Next(0, 4);
+            switch (randomNumber)
+            {
+                case 0:
+                    gameData.nextLevel = "Level1.tmx";
+                    gameData.spawnXLeft = 416;
+                    gameData.spawnYLeft = 416;
+                    gameData.spawnXRight = 1120;
+                    gameData.spawnYRight = 1120;
+                    break;
+                case 1:
+                    gameData.nextLevel = "Level2.tmx";
+                    gameData.spawnXLeft = 416;
+                    gameData.spawnYLeft = 448;
+                    gameData.spawnXRight = 1120;
+                    gameData.spawnYRight = 1152;
+                    break;
+                case 2:
+                    gameData.nextLevel = "Level3.tmx";
+                    gameData.spawnXLeft = 416;
+                    gameData.spawnYLeft = 448;
+                    gameData.spawnXRight = 1120;
+                    gameData.spawnYRight = 1152;
+                    break;
+                case 3:
+                    gameData.nextLevel = "Level4.tmx";
+                    gameData.spawnXLeft = 288;
+                    gameData.spawnYLeft = 288;
+                    gameData.spawnXRight = 1248;
+                    gameData.spawnYRight = 1312;
+
+                    break;
+            }
+
         }
     
     }

@@ -14,8 +14,8 @@ public class InfiniteKnife : Gun {
         tweenTime = 75;
         tweenDelta = 9;
         bulletSprite = "knife.png";
-        shotSound = new Sound("ak1.mp3");
-        targetVolume = 0.15f;
+        shotSound = new Sound("Knife.ogg");
+        targetVolume = 0.5f;
 
     }
     protected override void Update(){

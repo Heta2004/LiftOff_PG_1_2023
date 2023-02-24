@@ -8,14 +8,16 @@ using System.Collections.Generic;
 public class MyGame : Game {
 
     string startLevel = "mainMenu.tmx";
-    //string startLevel = "Level1.tmx";
     string nextLevel;
     GameData gameData=new GameData();
     public bool reset = false;
-    Sound music = new Sound("song.mp3",true,true);
+
+    //Sound music = new Sound("song.mp3",true,true);
+
+
     public MyGame() : base(683, 384, false,true,1366,768,true) {
         game.RenderMain = false;
-        SoundChannel soundChannel = music.Play(false,0,0.30f);
+        //SoundChannel soundChannel = music.Play(false,0,0.30f);
         game.OnAfterStep += CheckLoadLevel; 
         AddChild(gameData);
         LoadLevel(startLevel);

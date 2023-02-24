@@ -33,7 +33,7 @@ public class StandardEnemyBase : Enemy {
     }
 
     protected override void Update(){
-        //speed = lastSpeed;
+        speed = lastSpeed;
         if (angle >= 90 && angle <= 270)
             Mirror(true, false);
         else
@@ -118,8 +118,12 @@ public class StandardEnemyBase : Enemy {
             walkStartTime = Time.time;
         }
         angle = Tools.DirectionRelatedTools.CalculateAngle(x, y, targetX, targetY);
-        if (x!=targetX&&y!=targetY)
+        Choose(angle);
+        //if (x!=targetX&&y!=targetY)
+        //    MoveEnemy(angle);
+        if (DirectionRelatedTools.CalculateDistance(x, y, targetX, targetY) > 3) { 
             MoveEnemy(angle);
+        }
     }
 
     protected override void ReactOnBeingDamaged()

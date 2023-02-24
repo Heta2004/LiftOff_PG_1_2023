@@ -49,6 +49,9 @@ public class Player : AnimationSprite {
     int timeGotSpeedBoost = -1000000;
     bool decreasedSpeed = true;
 
+    bool playsound1 = true;
+    bool playsound2 = true;
+
     public Player(string filename, int cols, int rows, TiledObject obj = null) : base(filename,cols,rows) {
         SetOrigin(width/2,height/2);
         SetCycle(0,11);
@@ -80,18 +83,38 @@ public class Player : AnimationSprite {
 
     }
 
-    void IdleState() {
-        SetCycle(8,5);
+    void IdleState()
+    {
+        SetCycle(8, 5);
         AnimateFixed(0.3f);
-        if (isMoving)
+        if (isMoving) { 
             state = RUN;
+            playsound1= true;
+            playsound2 = true;
+        }
     }
 
 
     void DecideMovement() {
         SetCycle(0, 7);
-        AnimateFixed(0.8f);
+        AnimateFixed(0.5f);
         AddStepParticle();
+        if (currentFrame == 1&&playsound1) {
+            SoundChannel shotSound = new Sound("Footstep_1.ogg").Play(false, 0, 1);
+            playsound1 = false;
+        }
+
+        if (currentFrame == 5&&playsound2) {
+            SoundChannel shotSound = new Sound("Footstep_2.ogg").Play(false, 0, 1);
+            playsound2 = false;
+        }
+
+        if (currentFrame == 6) { 
+            playsound1= true;
+            playsound2 = true;
+        }
+
+
 
         if (!isMoving){
             state = IDLE;
@@ -149,9 +172,10 @@ public class Player : AnimationSprite {
     public void TakeDamage(int damage) {
         
         if (Time.time > cooldown + lastHitTime){
+            SoundChannel shotSound = new Sound("Getting_Damaged.ogg").Play(false, 0, 1);
             color = 0xFF7E63;
             time = 0;
-            hp=hp-Math.Max((damage-gameData.playerArmor),0);
+            hp=hp-Math.Max((damage),0);
             lastHitTime= Time.time;
             ui.AddPlayerHpBar((float)hp / gameData.playerMaxHp,hp);
         }
@@ -201,6 +225,15 @@ public class Player : AnimationSprite {
         GameObject[] collisions = GetCollisions(true,false);
         foreach (GameObject col in collisions){
 
+            if (col is AoeSlam) {
+                if (DirectionRelatedTools.CalculateDistance(x,y,col.x,col.y)<100)
+                    TakeDamage(gameData.minotaurSlamDamage);
+            }
+
+            if (col is AttackSpikes) {
+                TakeDamage(gameData.minotaurSpikeDamage);
+            }
+
             if (col is SlowTile) {
                 speedChange = lastSpeedChange*gameData.speedDecreaseMutliplier;
             }
@@ -217,7 +250,7 @@ public class Player : AnimationSprite {
             if (col is HpDrop && hp < gameData.playerMaxHp){
                 hp = Math.Min(hp + gameData.HPONPICKUP, gameData.playerMaxHp);
                 ui.AddPlayerHpBar((float)hp / gameData.playerMaxHp, hp);
-                SoundChannel soundhchannel = new Sound("potion.mp3").Play(false, 0, 0.3f);
+                SoundChannel soundhchannel = new Sound("potion.mp3").Play(false, 0, 1f);
                 col.LateDestroy();
             }
 
@@ -251,7 +284,9 @@ public class Player : AnimationSprite {
                 gameData.playerSpeedIncrease += gameData.SPEEDINCREASEPICKUP;
                 timeGotSpeedBoost= Time.time;
                 decreasedSpeed = false;
+                SoundChannel soundhchannel = new Sound("Speed_Pick_Up.ogg").Play(false, 0, 1f);
                 col.Destroy();
+                
             }
         }
 
@@ -263,13 +298,16 @@ public class Player : AnimationSprite {
             if (gameData.gunArray[i] == weaponType){
                 gameData.GunBullets[i] = bullets;
                 exists = true;
+                SoundChannel shotSound = new Sound("PickUp.ogg").Play(false, 0, 1);
                 col.Destroy();
                 break;
             }
         if (!exists&& gameData.gunArray.Count < gameData.maxGunNumber)
         {
+            SoundChannel shotSound = new Sound("PickUp.ogg").Play(false, 0, 1);
             gameData.gunArray.Add(weaponType);
             gameData.GunBullets.Add(bullets);
+            col.Destroy();
         }
 
 

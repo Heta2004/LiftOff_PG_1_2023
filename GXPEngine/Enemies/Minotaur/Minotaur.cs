@@ -22,26 +22,27 @@ public class Minotaur:Enemy{
     int dashDuration = 1200;
     float lastRotation;
     int dashCooldown=4000;//3000
-    int dashRange = 300;
+    int dashRange = 350;//300
 
     int slamCooldown = 3500;
-    int slamRange = 75;//100
+    int slamRange = 100;//75
     int slamStartTime = 0;
 
     int spikesCooldown = 3500;
-    int spikesRange = 175;//150
+    int spikesRange = 200;//175
     int spikesStartTime = 0;
 
     int waitTime = 2000;//500
     int waitStartTime = 0;
 
-
+    bool playSound1 = true;
+    bool playSound2 = true;
     public Minotaur(Player pPlayer,GameData pGameData) :base("Minotaur.png", 12, 1, pPlayer) {
         gameData = pGameData;
         
         SetScaleXY(2f,2f);
-        EnemySetStats(160f, 25, 1000);
-        lastSpeed = 160f;
+        EnemySetStats(200f, 25, 2000);//160
+        lastSpeed = 200f;
         scoreOnDeath = 1000;
     }
 
@@ -66,6 +67,19 @@ public class Minotaur:Enemy{
         {
             case CHASE:
                 SetCycle(0,4);
+                if (currentFrame == 1&&playSound1) {
+                    playSound1= false;
+                    SoundChannel channel = new Sound("Boss_Footstep_1.ogg").Play(false, 0, 1);
+                }
+                if (currentFrame == 3 && playSound2) { 
+                    playSound2= false;
+                    SoundChannel channel = new Sound("Boss_Footstep_2.ogg").Play(false, 0, 1);
+
+                }
+                if (currentFrame == 4) {
+                    playSound1 = true;
+                    playSound2 = true;
+                }
                 AnimateFixed(0.65f);
                 changeDirection = true;
                 base.ChasePlayer();
@@ -105,6 +119,7 @@ public class Minotaur:Enemy{
         if (distance < dashRange && (Time.time - (dashStartTime + dashDuration) > dashCooldown)&&(distance>spikesRange))
         {
             state = DASH;
+            SoundChannel channel = new Sound("Boss_Dash.ogg").Play(false, 0, 1f);
             dashStartTime = Time.time;
             return;
         }
@@ -120,6 +135,7 @@ public class Minotaur:Enemy{
         if (Time.time - dashStartTime > dashDuration){
             state = WAIT;
             waitStartTime= Time.time;
+            SoundChannel channel1 = new Sound("Boss_Tired.ogg").Play(false, 0, 1f);
         }
 
     }
@@ -128,6 +144,7 @@ public class Minotaur:Enemy{
         SetCycle(8, 4);
         AnimateFixed(0.2f);
         if (currentFrame == 10) {
+
             AoeSlam slam = new AoeSlam();
             slam.SetOrigin(slam.width / 2, slam.height / 2);
             parent.AddChild(slam);
@@ -136,6 +153,8 @@ public class Minotaur:Enemy{
         }
         if (currentFrame == 11) {
             waitStartTime = Time.time;
+            SoundChannel channel = new Sound("Attack_Earthquake.ogg").Play(false, 0, 1f);
+            SoundChannel channel1 = new Sound("Boss_Tired.ogg").Play(false, 0, 1f);
             state = WAIT;
         }
 
@@ -146,6 +165,7 @@ public class Minotaur:Enemy{
         AnimateFixed(0.1f);
         if (currentFrame == 5)
         {
+            SoundChannel channel = new Sound("Attack_Earthquake.ogg").Play(false, 0, 1f);
             AoeSpikes spike1 = new AoeSpikes();
             spike1.SetOrigin(0, spike1.height / 2);
             parent.AddChild(spike1);
@@ -175,7 +195,7 @@ public class Minotaur:Enemy{
                 spike3.SetXY(x - width / 4, y + height / 2);
             spike3.rotation = lastRotation + 10;
 
-            AttackSpikes attackSpike1 = new AttackSpikes();
+            AttackSpikes attackSpike1 = new AttackSpikes(1);
             attackSpike1.SetOrigin(attackSpike1.width/2, attackSpike1.height / 2);
             parent.AddChild(attackSpike1);
             if (!_mirrorX)
@@ -190,8 +210,8 @@ public class Minotaur:Enemy{
             attackSpike1.rotation = lastRotation;
 
 
-            AttackSpikes attackSpike2 = new AttackSpikes();
-            attackSpike1.SetOrigin(attackSpike2.width / 2, attackSpike2.height / 2);
+            AttackSpikes attackSpike2 = new AttackSpikes(2);
+            attackSpike2.SetOrigin(attackSpike2.width / 2, attackSpike2.height / 2);
             parent.AddChild(attackSpike2);
             if (!_mirrorX)
             {
@@ -204,8 +224,7 @@ public class Minotaur:Enemy{
             }
             attackSpike2.rotation = lastRotation - 10;
 
-
-            AttackSpikes attackSpike3 = new AttackSpikes();
+            AttackSpikes attackSpike3 = new AttackSpikes(3);
             attackSpike3.SetOrigin(attackSpike3.width / 2, attackSpike3.height / 2);
             parent.AddChild(attackSpike3);
             if (!_mirrorX)
@@ -221,6 +240,7 @@ public class Minotaur:Enemy{
 
             waitStartTime = Time.time;
             state = WAIT;
+            SoundChannel channel1 = new Sound("Boss_Tired.ogg").Play(false, 0, 1f);
         }
 
     }
@@ -230,7 +250,6 @@ public class Minotaur:Enemy{
         AnimateFixed(0.1f);
         changeDirection = true;
         if (Time.time - waitStartTime > waitTime) {
-            
             state = CHASE;
         }
     }

@@ -15,7 +15,7 @@ public class Teleporter:AnimationSprite{
     int number;
     int time = -20000000;
     int timeUntilActivation = 10000;
-    Sound sound = new Sound("Teleporter_Shorter.wav");
+    Sound sound = new Sound("Teleporter.ogg");
     public Teleporter(string filename, int cols, int rows, TiledObject obj = null) : base(filename, cols, rows) {
         collider.isTrigger= true;
     }
